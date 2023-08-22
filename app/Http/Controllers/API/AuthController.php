@@ -19,7 +19,7 @@ class AuthController extends Controller
                 'status' => 200,
                 'token' => $token,
                 'user' => $user,
-                'message' => 'Login Berhasil!',
+                'message' => 'Login success!',
             ]);
         } else if (empty($user)) {
             return response()->json([
@@ -39,7 +39,6 @@ class AuthController extends Controller
         try {
             $user = new User;
             $user->name = $request->name;
-            $user->username = $request->username;
             $user->email = $request->email;
             $user->role = 'HIKER';
             $user->status = 'ACTIVE';
@@ -49,7 +48,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Register Berhasil!',
+                'message' => 'Register success!',
             ]);
         } catch (Exception $e) {
             return response()->json([
