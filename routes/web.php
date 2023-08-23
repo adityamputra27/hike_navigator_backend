@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    DashboardController
+    DashboardController,
+    UserController
 };
 
 /*
@@ -27,3 +28,6 @@ Route::get('/dashboard', function () {
 Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+
+Route::post('users/datatables/', [UserController::class, 'datatables'])->name('users.datatables');
+Route::resource('users', UserController::class);
