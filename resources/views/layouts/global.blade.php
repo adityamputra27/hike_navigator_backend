@@ -59,12 +59,40 @@
             <div class="polished-sidebar bg-light col-12 col-md-3 col-lg-2 p-0 collapse d-md-inline" id="sidebar-nav">
                 <ul class="polished-sidebar-menu ml-0 pt-4 p-0 d-md-block">
                     <input class="border-dark form-control d-block d-md-none mb-4" type="text" placeholder="Search" aria-label="Search" />
-                    <li>
+                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
                         <a href="/dashboard"><span class="oi oi-home"></span>Dashboard</a>
                     </li>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">API MOBILE NAVIGATION </a>
+                    </div>
                     <li>
+                        <a href="/users"><span class="oi oi-menu"></span>Data Master</a>
+                    </li>
+                    <li>
+                        <a href="/users"><span class="oi oi-map"></span>Daftar Destinasi</a>
+                    </li>
+                    <li>
+                        <a href="/users"><span class="oi oi-location"></span>Rencana Pendakian</a>
+                    </li>
+                    <li>
+                        <a href="/users"><span class="oi oi-map-marker"></span>Check Point Pendakian</a>
+                    </li>
+                    <li class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <a href="/users"><span class="oi oi-people"></span>Manage Users</a>
                     </li>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">ADMOB NAVIGATION </a> 
+                        <ul class="list-unstyled">
+                            <li class=""><a href="#"><span class="oi oi-bullhorn"></span>Admob Configuration</a></li>
+                        </ul>
+                    </div>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">OTHER NAVIGATION </a> 
+                        <ul class="list-unstyled">
+                            <li class=""><a href="#"><span class="oi oi-pencil"></span>Edit Profile</a></li>
+                            <li class=""><a href="#"><span class="oi oi-account-logout"></span>Logout</a></li>
+                        </ul>
+                    </div>
                     <div class="d-block d-md-none">
                         <div class="dropdown-divider"></div>
                         <li><a href="#"> Profile</a></li>
