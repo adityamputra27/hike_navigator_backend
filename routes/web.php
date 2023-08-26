@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     DashboardController,
+    MountainController,
+    PeakController,
     UserController
 };
 
@@ -28,6 +30,11 @@ Route::get('/dashboard', function () {
 Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+
+Route::resource('mountains', MountainController::class);
+
+Route::post('peaks/datatables/', [PeakController::class, 'datatables'])->name('peaks.datatables');
+Route::resource('peaks', PeakController::class);
 
 Route::post('users/datatables/', [UserController::class, 'datatables'])->name('users.datatables');
 Route::resource('users', UserController::class);

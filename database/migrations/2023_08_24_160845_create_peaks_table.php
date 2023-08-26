@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('peaks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('weight');
-            $table->enum('status', ['ACTIVE', 'INACITVE']);
+            $table->string('height');
+            $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->unsignedBigInteger('user_id');
             $table->longText('description');
             $table->timestamps();
