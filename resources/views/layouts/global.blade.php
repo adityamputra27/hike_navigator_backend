@@ -69,13 +69,12 @@
                         <a href="#" class="pl-3 fs-smallest fw-bold text-muted">API MOBILE NAVIGATION </a>
                     </div>
                     <li class="
-                        {{ request()->routeIs('mountains.*') 
-                        || request()->routeIs('peaks.*') 
+                        {{ request()->routeIs('peaks.*') 
                         ? 'active' : '' }}">
-                        <a href="/mountains"><span class="oi oi-menu"></span>Data Master</a>
+                        <a href="/peaks"><span class="oi oi-menu"></span>Data Master</a>
                     </li>
-                    <li>
-                        <a href="/users"><span class="oi oi-map"></span>Daftar Destinasi</a>
+                    <li class="{{ request()->routeIs('mountains.*') ? 'active' : '' }}">
+                        <a href="/mountains"><span class="oi oi-map"></span>Daftar Destinasi</a>
                     </li>
                     <li>
                         <a href="/users"><span class="oi oi-location"></span>Rencana Pendakian</a>

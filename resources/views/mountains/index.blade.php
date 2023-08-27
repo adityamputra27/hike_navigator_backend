@@ -1,9 +1,7 @@
 @extends('layouts.global')
-@section("title") Manage Mountains @endsection
+@section("title") Manage Destinations @endsection
 
 @section('content')
-@include('master')
-<hr class="my-3">
 @if (session('status'))
     <div class="alert alert-success">
         {{ session('status') }}
