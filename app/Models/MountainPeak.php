@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MountainPeak extends Model
 {
     use HasFactory;
+
+    public function peak()
+    {
+        return $this->belongsTo(Peak::class);
+    }
 }

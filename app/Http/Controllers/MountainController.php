@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{
     Province,
-    Mountain
+    Mountain,
+    Peak,
+    MountainPeak,
 };
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -19,15 +21,15 @@ class MountainController extends Controller
 
     public function datatables()
     {
-        $mountains = Mountain::with(['province', 'city'])->orderBy('name', 'ASC')->get();
+        $mountains = Mountain::with(['province', 'city']);
         return DataTables::of($mountains)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $button = '<div class="btn-group">';
-                    $button .= '<a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#peaksModal"><i class="oi oi-plus"></i>&nbsp;Route</a>';
+                    $button .= '<a href="#" class="btn btn-sm btn-info" data-mountain_id="'.$row->id.'" data-toggle="modal" data-target="#peaksModal"><i class="oi oi-plus"></i>&nbsp;Route</a>';
                     $button .= '<a href="'.route('mountains.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="oi oi-image"></i>&nbsp;Image</a>';
                     $button .= '<a href="'.route('mountains.edit', $row->id).'" class="btn btn-sm btn-warning"><i class="oi oi-pencil"></i>&nbsp;Edit</a>';
-                    $button .= '<a href="'.route('mountains.destroy', $row->id).'" class="btn btn-sm btn-danger"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
+                    $button .= '<a href="#" data-route="'.route('mountains.destroy', $row->id).'" class="btn btn-sm btn-danger delete"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
                     $button .= '</div>';
     
                     return $button;
@@ -36,12 +38,56 @@ class MountainController extends Controller
                 ->toJson();
     }
 
+    public function peakDatatables(Request $request)
+    {
+        $mountains = MountainPeak::with(['peak'])->where('mountain_id', $request->mountain_id);
+        return DataTables::of($mountains)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $button = '<div class="btn-group">';
+                    $button .= '<a href="#" class="btn btn-sm btn-info"><i class="oi oi-eye"></i>&nbsp;Detail</a>';
+                    $button .= '<a href="#" data-route="'.route('mountains.destroyPeak', $row->id).'" class="btn btn-sm btn-danger deletePeak"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
+                    $button .= '</div>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+    }
+
+    public function storePeaks(Request $request)
+    {
+        $exist = MountainPeak::where('mountain_id', $request->mountain_id)->where('peak_id', $request->peak_id)->first();
+        if (!empty($exist)) {
+            return response('failed');
+        }
+
+        $mountainPeak = new MountainPeak;
+        $mountainPeak->mountain_id = $request->mountain_id;
+        $mountainPeak->peak_id = $request->peak_id;
+        $mountainPeak->latitude = '';
+        $mountainPeak->longitude = '';
+        $mountainPeak->status = 'ACTIVE';
+        $mountainPeak->user_id = Auth::id();
+        $mountainPeak->save();
+
+        return response('success');
+    }
+
+    public function destroyPeak(Request $request, $id)
+    {
+        $mountainPeak = MountainPeak::findOrFail($id);
+        $mountainPeak->delete();
+
+        return response('success');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {        
-        return view('mountains.index');
+        $peaks = Peak::where('status', 'ACTIVE')->get();
+        return view('mountains.index', ['peaks' => $peaks]);
     }
 
     /**
@@ -120,6 +166,10 @@ class MountainController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $mountain = Mountain::findOrFail($id);
+        $mountain->mountainPeaks()->delete();
+        $mountain->delete();
+
+        return response('success');
     }
 }

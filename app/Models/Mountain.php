@@ -18,4 +18,9 @@ class Mountain extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    public function mountainPeaks()
+    {
+        return $this->hasMany(MountainPeak::class);
+    }
 }

@@ -111,11 +111,155 @@
                 ],
             })
 
+            let mountainId = 0
+            const peakTable = $('#peakDatatables').DataTable({
+                displayLength: 10,
+                processing: true,
+                destroy: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: "{{ route('mountains.peakDatatables') }}",
+                    type: "POST",
+                    data: function (data) {
+                        data._token = "{{ csrf_token() }}",
+                        data.mountain_id = mountainId
+                    }
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        width: '1%',
+                        class: 'text-center',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'peak.name',
+                        name: 'peak.name'
+                    },
+                    {
+                        data: 'latitude',
+                        name: 'latitude'
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center',
+                        width: '1%',
+                    }
+                ],
+            })
+
             $('#reload').on('click', function () {
                 table.ajax.reload()
             })
+            $('#peak_id').select2()
+            $('#peaksModal').on('show.bs.modal', function (event) {
+                $('#peak_id').val('').change()
+                let button = $(event.relatedTarget)
+                let id = button.data('mountain_id')
+                mountainId = id
+                peakTable.draw()
+            })
 
-            $('#mountain_peak_id').select2()
+            $('#mountainPeaksForm').on('submit', function (event) {
+                event.preventDefault()
+                let peakId = $(this).find('#peak_id').val()
+                if (peakId == '') return
+                
+                $.post("{{ route('mountains.storePeaks') }}", 
+                    { mountain_id: mountainId, peak_id: peakId, _token: "{{ csrf_token() }}" }, (data, status) => {
+                    if (data == 'success') {
+                        Swal.fire({
+                            title: 'Successfully create new mountain peaks!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                peakTable.ajax.reload()
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Mountain peaks already exist!',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        })
+                    }
+                })
+            })
+
+            $(document).on('click', '.delete', async function (e) {
+                e.preventDefault()
+                let route = $(this).data('route')
+                await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete this data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({ url: route, method: 'DELETE', data: { _token: "{{ csrf_token() }}", }, success: ($response) => {
+                            if ($response == 'success') {
+                                Swal.fire({
+                                    title: 'Successfully delete mountain!',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        table.ajax.reload()
+                                    }
+                                })
+                            }
+                        } })
+                    }
+                })
+            })
+
+            $(document).on('click', '.deletePeak', async function (e) {
+                e.preventDefault()
+                let route = $(this).data('route')
+                await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete this data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({ url: route, method: 'DELETE', data: { _token: "{{ csrf_token() }}", }, success: ($response) => {
+                            if ($response == 'success') {
+                                Swal.fire({
+                                    title: 'Successfully delete mountain peak!',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        peakTable.ajax.reload()
+                                    }
+                                })
+                            }
+                        } })
+                    }
+                })
+            })
         })
     </script>
 @endsection
