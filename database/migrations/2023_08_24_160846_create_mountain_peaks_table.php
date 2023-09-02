@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('peak_id');
             $table->string('latitude');
             $table->string('longitude');
-            $table->enum('status', ['ACTIVE', 'INACITVE']);
+            $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

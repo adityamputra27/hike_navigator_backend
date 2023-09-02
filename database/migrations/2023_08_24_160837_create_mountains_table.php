@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('province_id');
             $table->string('height');
-            $table->enum('status', ['ACTIVE', 'INACITVE']);
+            $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->longText('description');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

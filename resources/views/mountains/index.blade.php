@@ -2,11 +2,13 @@
 @section("title") Manage Destinations @endsection
 
 @section('content')
-@if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
+<div class="row ml-3">
+    @if (session('status'))
+        <div class="alert alert-success">
+            <i class="oi oi-circle-check"></i> <strong>{{ session('status') }}</strong>
+        </div>
+    @endif
+</div>
 <div class="row pl-3 mb-5">
     <div class="col-lg-12">
         <div class="card">
@@ -18,97 +20,102 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="datatables" class="table table-striped table-hovered table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Latitude</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Height</th>
-                            <th>Status</th>
-                            <th>Created at</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table id="datatables" class="table table-striped table-hovered table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Height</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Province</th>
+                                <th>City</th>
+                                <th>Map Offline</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+@include('mountains.peaks')
 @section('scripts')
     <script>
         $(function () {
-            // const table = $('#datatables').DataTable({
-            //     displayLength: 10,
-            //     processing: true,
-            //     destroy: true,
-            //     serverSide: true,
-            //     responsive: true,
-            //     ajax: {
-            //         url: "{{ route('users.datatables') }}",
-            //         type: "POST",
-            //         data: {
-            //             _token: "{{ csrf_token() }}"
-            //         }
-            //     },
-            //     columns: [
-            //         {
-            //             data: 'DT_RowIndex',
-            //             name: 'DT_RowIndex',
-            //             width: '1%',
-            //             class: 'text-center',
-            //             orderable: false,
-            //             searchable: false
-            //         },
-            //         {
-            //             data: 'name',
-            //             name: 'name'
-            //         },
-            //         {
-            //             data: 'email',
-            //             name: 'email'
-            //         },
-            //         {
-            //             data: 'username',
-            //             name: 'username'
-            //         },
-            //         {
-            //             data: 'avatar',
-            //             name: 'avatar'
-            //         },
-            //         {
-            //             data: 'role',
-            //             name: 'role'
-            //         },
-            //         {
-            //             data: 'status',
-            //             name: 'status'
-            //         },
-            //         {
-            //             data: 'register_type',
-            //             name: 'register_type'
-            //         },
-            //         {
-            //             data: 'created_at',
-            //             name: 'created_at'
-            //         },
-            //         // {
-            //         //     data: 'action',
-            //         //     name: 'action',
-            //         //     orderable: false,
-            //         //     searchable: false,
-            //         //     className: 'text-center'
-            //         // }
-            //     ],
-            // })
+            const table = $('#datatables').DataTable({
+                displayLength: 10,
+                processing: true,
+                destroy: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: "{{ route('mountains.datatables') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    }
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        width: '1%',
+                        class: 'text-center',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'height',
+                        name: 'height'
+                    },
+                    {
+                        data: 'latitude',
+                        name: 'latitude'
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude'
+                    },
+                    {
+                        data: 'province.name',
+                        name: 'province.name'
+                    },
+                    {
+                        data: 'city.name',
+                        name: 'city.name'
+                    },
+                    {
+                        data: 'is_map_offline',
+                        name: 'is_map_offline'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center'
+                    }
+                ],
+            })
 
             $('#reload').on('click', function () {
                 table.ajax.reload()
             })
+
+            $('#mountain_peak_id').select2()
         })
     </script>
 @endsection

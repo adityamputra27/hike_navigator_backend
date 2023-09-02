@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('title');
             $table->string('latitude');
             $table->string('longitude');
-            $table->enum('status', ['ACTIVE', 'INACITVE']);
+            $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->unsignedBigInteger('user_id');
             $table->text('description');
             $table->timestamps();
