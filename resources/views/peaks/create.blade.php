@@ -11,13 +11,19 @@
                     <h5 class="mb-0">Form</h5>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="">Name</label>
-                        <input type="text" name="name" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Height</label>
-                        <input type="text" name="height" id="height" class="form-control form-control-sm" placeholder="cth: 1000 - 2000 mdpl" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" name="name" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Height</label>
+                                <input type="text" name="height" id="height" class="form-control form-control-sm" placeholder="cth: 1000 - 2000 mdpl" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Status</label>

@@ -87,7 +87,7 @@
     </div>
 </form>
 @endsection
-@include('mountains.maps')
+@include('maps')
 @section('scripts')
     <script>
         $(function () {
@@ -109,67 +109,6 @@
                         });
                     }
                 })
-            })
-
-            mapboxgl.accessToken = 'pk.eyJ1IjoiaGlrZW5hdmlnYXRvcm5ldyIsImEiOiJjbGxoZXRsdnoxOW5wM2ZwamZ2eTBtMWV1In0.jYkxsonNQIn_GsbJorNkEw';
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                zoom: 10,
-            });
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-                let userLocation = [position.coords.longitude, position.coords.latitude]
-                map.on('load', function () {
-                    map.setCenter(userLocation);
-                });
-
-                new mapboxgl.Marker()
-                    .setLngLat(userLocation)
-                    .addTo(map);
-                
-                $('#longitude_modal').val(userLocation[0])
-                $('#latitude_modal').val(userLocation[1])
-            })
-
-            map.addControl(
-                new MapboxGeocoder({
-                    accessToken: mapboxgl.accessToken,
-                    mapboxgl: mapboxgl
-                })
-            );
-
-            marker = null
-            map.on('click', function (e) {
-                let latitude = e.lngLat.lat
-                let longitude = e.lngLat.lng
-
-                if (marker) {
-                    marker.setLngLat([longitude, latitude])
-                } else {
-                    marker = new mapboxgl.Marker()
-                    .setLngLat([longitude, latitude])
-                    .addTo(map)
-                }
-                $('#latitude_modal').val(latitude)
-                $('#longitude_modal').val(longitude)
-            })
-
-            $('#mapModal').on('shown.bs.modal', function () {
-                map.resize();
-            })
-
-            $('#mapModal').on('hidden.bs.modal', function () {
-                let latitude = $('#latitude_modal').val()
-                let longitude = $('#longitude_modal').val()
-
-                $('#latitude').val(latitude)
-                $('#longitude').val(longitude)
-
-                if (marker) {
-                    marker.remove()
-                    marker = null
-                }
             })
         })
     </script>
