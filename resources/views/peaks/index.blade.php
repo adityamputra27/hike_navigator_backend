@@ -26,6 +26,8 @@
                             <th>No</th>
                             <th>Name</th>
                             <th>Height</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
                             <th>Status</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -69,6 +71,14 @@
                     {
                         data: 'height',
                         name: 'height'
+                    },
+                    {
+                        data: 'latitude',
+                        name: 'latitude'
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude'
                     },
                     {
                         data: 'status',

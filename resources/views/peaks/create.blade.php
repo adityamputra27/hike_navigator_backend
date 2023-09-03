@@ -40,6 +40,36 @@
                         <textarea name="description" id="description" class="form-control form-control-sm" required></textarea>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Location</h5>
+                    <div>
+                        <a href="{{ route('peaks.index') }}" id="reload" class="btn btn-primary btn-sm"><i class="oi oi-chevron-left"></i> Back</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="">Choose Location</label>
+                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#mapModal">Show Maps</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Latitude</label>
+                                <input type="text" name="latitude" id="latitude" class="form-control form-control-sm" required readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Longitude</label>
+                                <input type="text" name="longitude" id="longitude" class="form-control form-control-sm" required readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary btn-lg">Simpan</button>
                 </div>
@@ -48,6 +78,7 @@
     </div>
 </form>
 @endsection
+@include('maps')
 @section('scripts')
     <script>
         $(function () {

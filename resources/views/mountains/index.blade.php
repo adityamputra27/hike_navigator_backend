@@ -140,12 +140,12 @@
                         name: 'peak.name'
                     },
                     {
-                        data: 'latitude',
-                        name: 'latitude'
+                        data: 'peak.latitude',
+                        name: 'peak.latitude'
                     },
                     {
-                        data: 'longitude',
-                        name: 'longitude'
+                        data: 'peak.longitude',
+                        name: 'peak.longitude'
                     },
                     {
                         data: 'status',

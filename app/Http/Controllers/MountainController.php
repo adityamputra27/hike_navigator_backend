@@ -64,8 +64,6 @@ class MountainController extends Controller
         $mountainPeak = new MountainPeak;
         $mountainPeak->mountain_id = $request->mountain_id;
         $mountainPeak->peak_id = $request->peak_id;
-        $mountainPeak->latitude = '';
-        $mountainPeak->longitude = '';
         $mountainPeak->status = 'ACTIVE';
         $mountainPeak->user_id = Auth::id();
         $mountainPeak->save();

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('mountain_id');
             $table->unsignedBigInteger('peak_id');
-            $table->string('latitude');
-            $table->string('longitude');
             $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

@@ -64,6 +64,8 @@ class PeakController extends Controller
         $peak = new Peak;
         $peak->name = $request->name;
         $peak->height = $request->height;
+        $peak->latitude = $request->latitude;
+        $peak->longitude = $request->longitude;
         $peak->status = $request->status;
         $peak->description = $request->description;
         $peak->user_id = auth()->user()->id;
@@ -98,6 +100,8 @@ class PeakController extends Controller
         $peak = Peak::where('id', $id)->first();
         $peak->name = $request->name;
         $peak->height = $request->height;
+        $peak->latitude = $request->latitude;
+        $peak->longitude = $request->longitude;
         $peak->status = $request->status;
         $peak->description = $request->description;
         $peak->user_id = auth()->user()->id;
