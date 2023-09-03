@@ -105,12 +105,12 @@
             <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">List of Tracks</h5>
                 <div>
-                    <a href="{{ route('mountains.create') }}" class="btn btn-primary"><i class="oi oi-plus"></i> Create New</a>
+                    <a href="{{ route('mountains.createTrack', [$mountainPeak->mountain_id, $mountainPeak->peak_id]) }}" class="btn btn-primary"><i class="oi oi-plus"></i> Create New</a>
                     <a href="#" id="reload" class="btn btn-success"><i class="oi oi-reload"></i> Refresh Table</a>
                 </div>
             </div> 
             <div class="card-body">
-                <table class="table table-hovered table-bordered">
+                <table class="table table-hovered table-bordered" id="datatables">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -118,7 +118,6 @@
                             <th>Latitude</th>
                             <th>Longitude</th>
                             <th>Status</th>
-                            <th>Description</th>
                         </tr>
                     </thead>
                 </table>
@@ -130,7 +129,47 @@
 @section('scripts')
     <script>
         $(function () {
-            
+            const table = $('#datatables').DataTable({
+                displayLength: 10,
+                processing: true,
+                destroy: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: "{{ route('mountains.trackDatatables') }}",
+                    type: "POST",
+                    data: function (data) {
+                        data._token = "{{ csrf_token() }}",
+                        data.mountain_peak_id = "{{ $mountainPeak->id }}"
+                    }
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        width: '1%',
+                        class: 'text-center',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'latitude',
+                        name: 'latitude'
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                ],
+            })
         })
     </script>
 @endsection

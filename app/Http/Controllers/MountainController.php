@@ -8,6 +8,7 @@ use App\Models\{
     Mountain,
     Peak,
     MountainPeak,
+    Track
 };
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -54,6 +55,21 @@ class MountainController extends Controller
                 ->toJson();
     }
 
+    public function trackDatatables(Request $request)
+    {
+        $tracks = Track::where('mountain_peak_id', $request->mountain_peak_id);
+        return DataTables::of($tracks)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $button = '<div class="btn-group">';
+                    $button .= '<a href="#" data-route="'.route('mountains.destroyPeak', $row->id).'" class="btn btn-sm btn-danger deletePeak"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
+                    $button .= '</div>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+    }
+
     public function storePeaks(Request $request)
     {
         $exist = MountainPeak::where('mountain_id', $request->mountain_id)->where('peak_id', $request->peak_id)->first();
@@ -84,6 +100,11 @@ class MountainController extends Controller
         $mountainPeak->delete();
 
         return response('success');
+    }
+
+    public function createTrack(Request $request, $mountainId, $peakId)
+    {
+        return view('mountains.create-tracks');
     }
 
     /**

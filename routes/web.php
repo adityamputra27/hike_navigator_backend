@@ -39,6 +39,8 @@ Route::post('mountains/peakDatatables/', [MountainController::class, 'peakDatata
 Route::post('mountains/storePeaks', [MountainController::class, 'storePeaks'])->name('mountains.storePeaks');
 Route::delete('mountains/destroyPeak/{mountainPeakId}', [MountainController::class, 'destroyPeak'])->name('mountains.destroyPeak');
 Route::get('mountains/{mountainId}/peak/{peakId}', [MountainController::class, 'detailPeak'])->name('mountains.detailPeak');
+Route::get('mountains/{mountainId}/peak/{peakId}/createTrack/', [MountainController::class, 'createTrack'])->name('mountains.createTrack');
+Route::post('mountains/trackDatatables/', [MountainController::class, 'trackDatatables'])->name('mountains.trackDatatables');
 
 Route::resource('mountains', MountainController::class);
 
