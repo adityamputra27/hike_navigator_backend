@@ -45,7 +45,7 @@ class MountainController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $button = '<div class="btn-group">';
-                    $button .= '<a href="#" class="btn btn-sm btn-info"><i class="oi oi-eye"></i>&nbsp;Detail</a>';
+                    $button .= '<a href="'.route('mountains.detailPeak', [$row->mountain_id, $row->peak_id]).'" class="btn btn-sm btn-info"><i class="oi oi-eye"></i>&nbsp;Detail</a>';
                     $button .= '<a href="#" data-route="'.route('mountains.destroyPeak', $row->id).'" class="btn btn-sm btn-danger deletePeak"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
                     $button .= '</div>';
                     return $button;
@@ -71,6 +71,13 @@ class MountainController extends Controller
         $mountainPeak->save();
 
         return response('success');
+    }
+
+    public function detailPeak(Request $request, $mountainId, $peakId)
+    {
+        $mountainPeak = MountainPeak::with(['mountain.province', 'mountain.city', 'peak'])
+                                    ->where('mountain_id', $mountainId)->where('peak_id', $peakId)->first();
+        return view('mountains.detail', ['mountainPeak' => $mountainPeak]);
     }
 
     public function destroyPeak(Request $request, $id)

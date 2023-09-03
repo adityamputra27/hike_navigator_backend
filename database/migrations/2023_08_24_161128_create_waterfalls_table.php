@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('waterfalls', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mountain_peak_id');
+            $table->unsignedBigInteger('track_id');
             $table->text('title');
             $table->string('latitude');
             $table->string('longitude');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('mountain_peak_id')->references('id')->on('mountain_peaks');
+            $table->foreign('track_id')->references('id')->on('tracks');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -9,6 +9,11 @@ class MountainPeak extends Model
 {
     use HasFactory;
 
+    public function mountain()
+    {
+        return $this->belongsTo(Mountain::class);
+    }
+
     public function peak()
     {
         return $this->belongsTo(Peak::class);

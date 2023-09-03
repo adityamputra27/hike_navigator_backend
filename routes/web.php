@@ -38,6 +38,8 @@ Route::post('mountains/datatables/', [MountainController::class, 'datatables'])-
 Route::post('mountains/peakDatatables/', [MountainController::class, 'peakDatatables'])->name('mountains.peakDatatables');
 Route::post('mountains/storePeaks', [MountainController::class, 'storePeaks'])->name('mountains.storePeaks');
 Route::delete('mountains/destroyPeak/{mountainPeakId}', [MountainController::class, 'destroyPeak'])->name('mountains.destroyPeak');
+Route::get('mountains/{mountainId}/peak/{peakId}', [MountainController::class, 'detailPeak'])->name('mountains.detailPeak');
+
 Route::resource('mountains', MountainController::class);
 
 Route::post('peaks/datatables/', [PeakController::class, 'datatables'])->name('peaks.datatables');
