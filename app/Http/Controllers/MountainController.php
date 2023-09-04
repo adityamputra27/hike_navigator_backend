@@ -135,7 +135,7 @@ class MountainController extends Controller
 
     public function editTrack(Request $request, $mountainId, $peakId, $trackId)
     {
-        $track = Track::findOrFail($trackId);
+        $track = Track::where('id', $trackId)->first();
         if (empty($track)) {
             return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
         }

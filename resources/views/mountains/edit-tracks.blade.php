@@ -2,7 +2,7 @@
 @section("title") Edit Tracks @endsection
 
 @section('content')
-<div class="row ml-3">
+<div class="row pl-3">
     <div class="col-lg-12">
         @if (session('status'))
             <div class="alert alert-success">
@@ -17,9 +17,12 @@
             <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Choose Location</h5>
                 <div>
-                    <button class="btn btn-primary" id="saveTrack" data-toggle="modal" data-target="#trackModal" type="button"><i class="oi oi-circle-check"></i> Save Track</button>
-                    <input type="hidden" id="geojson">
-                    <a href="#" class="btn btn-info"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
+                    <button type="button" class="btn btn-danger detail" data-value="mark">Create Mark</button>
+                    <button type="button" class="btn btn-warning detail" data-value="post">Create Post</button>
+                    <button type="button" class="btn btn-success detail" data-value="river">Create River</button>
+                    <button type="button" class="btn btn-primary detail" data-value="waterfall">Create Waterfall</button>
+                    <button type="button" class="btn btn-info detail" data-value="water_spring">Create Water Spring</button>
+                    <a href="#" class="btn btn-secondary"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
                 </div>
             </div>
             <div class="card-body">
@@ -32,7 +35,6 @@
 @section('scripts')
     <script>
         $(function () {
-            $('#saveTrack').hide()
             mapboxgl.accessToken = 'pk.eyJ1IjoiaGlrZW5hdmlnYXRvcm5ldyIsImEiOiJjbGxoZXRsdnoxOW5wM2ZwamZ2eTBtMWV1In0.jYkxsonNQIn_GsbJorNkEw';
             let map = new mapboxgl.Map({
                 container: 'map',
@@ -42,7 +44,6 @@
             });
 
             let routeTrack = JSON.parse(decodeURIComponent("{{ rawurlencode($track->geojson) }}"))
-            console.log(routeTrack)
             if (routeTrack !== 'undefined' && routeTrack !== null) {
                 map.on('load', function () {
                     map.addSource('routeTrack', {
@@ -76,7 +77,6 @@
             });
 
             map.addControl(geocoder);
-
             geocoder.on('result', function (e) {
                 let searchResult = e.result;
                 let userLocation = searchResult.geometry.coordinates;
@@ -116,6 +116,30 @@
                 peakPopup.addTo(map)
             }
             // end
+
+            $(document).on('click', '.detail', function (e) {
+                e.preventDefault()
+                let value = $(this).data('value')
+                let _this = $(this)
+                Swal.fire({
+                    title: 'Please click on the maps to create object!',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.setItem('value', value)
+                        _this.attr('disabled', true)
+                    }
+                })
+            })
+
+            localStorage.removeItem('value')
+            map.on('click', function () {
+                let value = localStorage.getItem('value') || ''
+                if (value == '') return
+
+                alert(value)
+            })
         })
     </script>
 @endsection
