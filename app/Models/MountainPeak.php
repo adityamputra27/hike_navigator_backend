@@ -18,4 +18,9 @@ class MountainPeak extends Model
     {
         return $this->belongsTo(Peak::class);
     }
+
+    public function track()
+    {
+        return $this->hasOne(Track::class);
+    }
 }

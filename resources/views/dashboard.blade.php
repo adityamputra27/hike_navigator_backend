@@ -31,7 +31,7 @@
                 <div class="media shadow-sm p-0 bg-white rounded text-primary ">
                     <span class="oi top-0 rounded-left bg-success text-light h-100 p-4 oi-badge fs-5"></span>
                         <div class="media-body p-2">
-                        <h5 class="media-title m-0">Semua Pengguna Aktif</h5>
+                        <h5 class="media-title m-0">Semua Pengguna</h5>
                         <div class="media-text">
                             <h3>{{ $user }}</h3>
                         </div>

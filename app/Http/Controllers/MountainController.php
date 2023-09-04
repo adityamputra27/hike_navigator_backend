@@ -104,7 +104,49 @@ class MountainController extends Controller
 
     public function createTrack(Request $request, $mountainId, $peakId)
     {
-        return view('mountains.create-tracks');
+        $mountainPeak = MountainPeak::with(['mountain.province', 'mountain.city', 'peak'])
+                                    ->where('mountain_id', $mountainId)->where('peak_id', $peakId)->first();
+        $mountain = $mountainPeak->mountain;
+        $peak = $mountainPeak->peak;
+
+        return view('mountains.create-tracks', [
+            'mountainPeak' => $mountainPeak,
+            'mountain' => $mountain,
+            'peak' => $peak,
+        ]);
+    }
+
+    public function storeTrack(Request $request, $mountainId, $peakId)
+    {
+        $track = new Track();
+        $track->mountain_peak_id = $request->mountain_peak_id;
+        $track->geojson = $request->geojson_modal;
+        $track->title = $request->title;
+        $track->description = $request->description != '' ? $request->description : '-';
+        $track->user_id = Auth::id();
+        $track->status = 'ACTIVE';
+        $track->latitude = '-';
+        $track->longitude = '-';
+
+        if ($track->save()) {
+            return redirect()->route('mountains.editTrack', [$mountainId, $peakId, $track->id])->with('status', 'Successfully create new track!');
+        }
+    }
+
+    public function editTrack(Request $request, $mountainId, $peakId, $trackId)
+    {
+        $track = Track::findOrFail($trackId);
+        if (empty($track)) {
+            return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
+        }
+
+        $mountainPeak = MountainPeak::with(['mountain', 'peak', 'track'])->where('id', $track->mountain_peak_id)->first();
+        return view('mountains.edit-tracks', [
+            'mountainPeak' => $mountainPeak,
+            'mountain' => $mountainPeak->mountain,
+            'peak' => $mountainPeak->peak,
+            'track' => $track,
+        ]);
     }
 
     /**
