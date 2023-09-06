@@ -36,6 +36,29 @@
                 max-width:1140px
             }
         }
+        /* custom marker */
+        .waterfall_markers {
+            background-image: url("{{ asset('images/waterfalls.png') }}");
+        }
+        .post_markers {
+            background-image: url("{{ asset('images/posts.png') }}");
+        }
+        .waterspring_markers {
+            background-image: url("{{ asset('images/watersprings.png') }}");
+        }
+        .river_markers {
+            background-image: url("{{ asset('images/rivers.png') }}");
+        }
+        .waterfall_markers,
+        .river_markers,
+        .waterspring_markers,
+        .post_markers {
+            background-size: cover;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+        }
+        /* end */
     </style>
     <script type="text/javascript">
         document.documentElement.className =

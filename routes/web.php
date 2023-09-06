@@ -42,6 +42,7 @@ Route::get('mountains/{mountainId}/peak/{peakId}', [MountainController::class, '
 Route::get('mountains/{mountainId}/peak/{peakId}/createTrack/', [MountainController::class, 'createTrack'])->name('mountains.createTrack');
 Route::post('mountains/{mountainId}/peak/{peakId}/storeTrack/', [MountainController::class, 'storeTrack'])->name('mountains.storeTrack');
 Route::get('mountains/{mountainId}/peak/{peakId}/editTrack/{trackId}', [MountainController::class, 'editTrack'])->name('mountains.editTrack');
+Route::patch('mountains/{mountainId}/peak/{peakId}/updateTrack/{trackId}', [MountainController::class, 'updateTrack'])->name('mountains.updateTrack');
 Route::post('mountains/trackDatatables/', [MountainController::class, 'trackDatatables'])->name('mountains.trackDatatables');
 
 Route::resource('mountains', MountainController::class);

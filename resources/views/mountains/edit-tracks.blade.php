@@ -17,17 +17,68 @@
             <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Choose Location</h5>
                 <div>
-                    <button type="button" class="btn btn-danger detail" data-value="mark">Create Mark</button>
-                    <button type="button" class="btn btn-warning detail" data-value="post">Create Post</button>
-                    <button type="button" class="btn btn-success detail" data-value="river">Create River</button>
-                    <button type="button" class="btn btn-primary detail" data-value="waterfall">Create Waterfall</button>
-                    <button type="button" class="btn btn-info detail" data-value="water_spring">Create Water Spring</button>
+                    <button type="button" class="btn btn-secondary cancel"><i class="oi oi-reload"></i> Cancel</button>
+                    {{-- <button type="button" class="btn btn-danger detail" data-value="marks">Create Mark</button> --}}
+                    <button type="button" class="btn btn-warning detail" data-value="posts">Create Post</button>
+                    <button type="button" class="btn btn-success detail" data-value="rivers">Create River</button>
+                    <button type="button" class="btn btn-primary detail" data-value="waterfalls">Create Waterfall</button>
+                    <button type="button" class="btn btn-info detail" data-value="water_springs">Create Water Spring</button>
                     <a href="#" class="btn btn-secondary"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
                 </div>
             </div>
             <div class="card-body">
                 <div id="map" style="width: 100%; height: 500px;"></div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Confirmation Location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('mountains.updateTrack', [$mountain->id, $peak->id, $track->id]) }}" id="trackForm" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="modal-body">
+                    <input type="hidden" name="mountain_peak_id" id="mountain_peak_id" value="{{ $mountainPeak->id }}">
+                    <input type="hidden" name="track_id" id="track_id" value="{{ $track->id }}">
+                    <div class="form-group">
+                        <label for="">Code :</label>
+                        <input type="text" name="value" id="value" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Title : </label>
+                        <input type="text" name="title" id="title" class="form-control" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Latitude :</label>
+                                <input type="text" name="latitude" id="latitude"  readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Longitude :</label>
+                                <input type="text" name="longitude" id="longitude"  readonly class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description <small>(optional)</small></label>
+                        <textarea name="description" id="description" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -83,6 +134,36 @@
                 map.setCenter(userLocation);
             });
 
+            // get all track detail
+            let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($mountainPeak->track) }}"))
+            for (const waterfall of tracks.waterfalls) {
+                const el = document.createElement('div')
+                el.className = 'waterfall_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: waterfall.longitude, lat: waterfall.latitude}).addTo(map)
+            }
+            for (const river of tracks.rivers) {
+                const el = document.createElement('div')
+                el.className = 'river_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: river.longitude, lat: river.latitude}).addTo(map)
+            }
+            for (const waterspring of tracks.watersprings) {
+                const el = document.createElement('div')
+                el.className = 'waterspring_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: waterspring.longitude, lat: waterspring.latitude}).addTo(map)
+            }
+            for (const post of tracks.posts) {
+                const el = document.createElement('div')
+                el.className = 'post_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: post.longitude, lat: post.latitude}).addTo(map)
+            }
+
+            // set marks
+
+
             // set mountain and peak selected
             let mountainLongitude = "{{ $mountain->longitude }}"
             let mountainLatitude = "{{ $mountain->latitude }}"
@@ -134,11 +215,18 @@
             })
 
             localStorage.removeItem('value')
-            map.on('click', function () {
+            map.on('click', function (e) {
                 let value = localStorage.getItem('value') || ''
                 if (value == '') return
+                $('#detailModal').modal('show')
+                $('#value').val(value.toUpperCase())
+                $('#latitude').val(e.lngLat.lat)
+                $('#longitude').val(e.lngLat.lng)
+            })
 
-                alert(value)
+            $('.cancel').on('click', function () {
+                localStorage.removeItem('value')
+                location.reload()
             })
         })
     </script>

@@ -12,6 +12,8 @@ use App\Models\{
 };
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MountainController extends Controller
 {
@@ -140,12 +142,45 @@ class MountainController extends Controller
             return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
         }
 
-        $mountainPeak = MountainPeak::with(['mountain', 'peak', 'track'])->where('id', $track->mountain_peak_id)->first();
+        $mountainPeak = MountainPeak::with(['mountain', 'peak', 'track.waterfalls', 'track.rivers', 'track.posts', 'track.watersprings'])->where('id', $track->mountain_peak_id)->first();
+
         return view('mountains.edit-tracks', [
             'mountainPeak' => $mountainPeak,
             'mountain' => $mountainPeak->mountain,
             'peak' => $mountainPeak->peak,
             'track' => $track,
+        ]);
+    }
+
+    public function updateTrack(Request $request, $mountainId, $peakId, $trackId)
+    {
+        $params['value'] = $request->value;
+        $params['mountain_peak_id'] = $request->mountain_peak_id;
+        $params['track_id'] = $trackId;
+        $params['request'] = $request;
+
+        $result = $this->createTrackDetails($params);
+        if ($result) {
+            return redirect()->route('mountains.editTrack', [$mountainId, $peakId, $trackId])->with('status', 'Successfully create new detail track!');
+        }
+    }
+
+    public function createTrackDetails($params = [])
+    {
+        $request = $params['request'];
+        $table = Str::lower($params['value']);
+
+        return DB::table($table)->insert([
+            'mountain_peak_id' => $params['mountain_peak_id'],
+            'track_id' => $params['track_id'],
+            'title' => $params['request']->title,
+            'latitude' => $params['request']->latitude,
+            'longitude' => $params['request']->longitude,
+            'description' => $params['request']->description,
+            'status' => 'ACTIVE',
+            'user_id' => Auth::id(),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
 
