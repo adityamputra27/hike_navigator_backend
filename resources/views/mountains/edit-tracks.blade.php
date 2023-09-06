@@ -17,6 +17,7 @@
             <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Choose Location</h5>
                 <div>
+                    <a href="{{ route('mountains.detailPeak', [$mountain->id, $peak->id]) }}" class="btn btn-danger"><i class="oi oi-chevron-left"></i> Back</a>
                     <button type="button" class="btn btn-secondary cancel"><i class="oi oi-reload"></i> Cancel</button>
                     {{-- <button type="button" class="btn btn-danger detail" data-value="marks">Create Mark</button> --}}
                     <button type="button" class="btn btn-warning detail" data-value="posts">Create Post</button>

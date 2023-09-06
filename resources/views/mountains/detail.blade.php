@@ -115,9 +115,10 @@
                         <tr>
                             <th>No</th>
                             <th>Title</th>
-                            <th>Latitude</th>
-                            <th>Longitude</th>
+                            <th>Geojson</th>
                             <th>Status</th>
+                            <th>Description</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -157,18 +158,59 @@
                         name: 'title'
                     },
                     {
-                        data: 'latitude',
-                        name: 'latitude'
-                    },
-                    {
-                        data: 'longitude',
-                        name: 'longitude'
+                        data: 'geojson',
+                        name: 'geojson'
                     },
                     {
                         data: 'status',
                         name: 'status'
                     },
+                    {
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center',
+                        width: '1%',
+                    }
                 ],
+            })
+            $('#reload').on('click', function () {
+                table.ajax.reload()
+            })
+
+            $(document).on('click', '.delete', async function (e) {
+                e.preventDefault()
+                let route = $(this).data('route')
+                await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete this data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({ url: route, method: 'DELETE', data: { _token: "{{ csrf_token() }}", }, success: ($response) => {
+                            if ($response == 'success') {
+                                Swal.fire({
+                                    title: 'Successfully delete track!',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        table.ajax.reload()
+                                    }
+                                })
+                            }
+                        } })
+                    }
+                })
             })
         })
     </script>

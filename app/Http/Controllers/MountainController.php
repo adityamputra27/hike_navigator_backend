@@ -62,11 +62,17 @@ class MountainController extends Controller
         $tracks = Track::where('mountain_peak_id', $request->mountain_peak_id);
         return DataTables::of($tracks)
                 ->addIndexColumn()
+                ->editColumn('geojson', function ($row) {
+                    return Str::limit(strip_tags($row->geojson), 100);
+                })
                 ->addColumn('action', function ($row) {
+                    $mountainPeak = MountainPeak::findOrFail($row->mountain_peak_id);
+
                     $button = '<div class="btn-group">';
-                    $button .= '<a href="#" data-route="'.route('mountains.destroyPeak', $row->id).'" class="btn btn-sm btn-danger deletePeak"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
+                    $button .= '<a href="'.route('mountains.editTrack', [$mountainPeak->mountain_id, $mountainPeak->peak_id, $row->id]).'" class="btn btn-sm btn-warning"><i class="oi oi-pencil"></i>&nbsp;Edit</a>';
+                    $button .= '<a href="#" data-route="'.route('mountains.destroyTrack', [$mountainPeak->mountain_id, $mountainPeak->peak_id, $row->id]).'" class="btn btn-sm btn-danger delete"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
                     $button .= '</div>';
-                    return $button;
+                    return $button; 
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -163,6 +169,21 @@ class MountainController extends Controller
         if ($result) {
             return redirect()->route('mountains.editTrack', [$mountainId, $peakId, $trackId])->with('status', 'Successfully create new detail track!');
         }
+    }
+
+    public function destroyTrack(Request $request, $mountainId, $peakId, $trackId)
+    {
+        $track = Track::findOrFail($trackId);
+
+        $track->marks()->delete();
+        $track->waterfalls()->delete();
+        $track->watersprings()->delete();
+        $track->rivers()->delete();
+        $track->posts()->delete();
+
+        $track->delete();
+
+        return response('success');
     }
 
     public function createTrackDetails($params = [])
