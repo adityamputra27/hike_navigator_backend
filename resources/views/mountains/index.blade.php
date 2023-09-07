@@ -3,11 +3,13 @@
 
 @section('content')
 <div class="row ml-3">
-    @if (session('status'))
-        <div class="alert alert-success">
-            <i class="oi oi-circle-check"></i> <strong>{{ session('status') }}</strong>
-        </div>
-    @endif
+    <div class="col-lg-12">
+        @if (session('status'))
+            <div class="alert alert-success">
+                <i class="oi oi-circle-check"></i> <strong>{{ session('status') }}</strong>
+            </div>
+        @endif
+    </div>
 </div>
 <div class="row pl-3 mb-5">
     <div class="col-lg-12">

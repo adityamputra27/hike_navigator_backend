@@ -46,6 +46,11 @@ class MountainController extends Controller
         $mountains = MountainPeak::with(['peak'])->where('mountain_id', $request->mountain_id);
         return DataTables::of($mountains)
                 ->addIndexColumn()
+                ->editColumn('status', function ($row) {
+                    $html = '';
+                    $html .= '<span class="badge badge-success">'.$row->status.'</span>';
+                    return $html;
+                })
                 ->addColumn('action', function ($row) {
                     $button = '<div class="btn-group">';
                     $button .= '<a href="'.route('mountains.detailPeak', [$row->mountain_id, $row->peak_id]).'" class="btn btn-sm btn-info"><i class="oi oi-eye"></i>&nbsp;Detail</a>';
@@ -53,17 +58,42 @@ class MountainController extends Controller
                     $button .= '</div>';
                     return $button;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['status', 'action'])
                 ->toJson();
     }
 
     public function trackDatatables(Request $request)
     {
-        $tracks = Track::where('mountain_peak_id', $request->mountain_peak_id);
+        $tracks = Track::with(['waterfalls', 'watersprings', 'rivers', 'posts'])->where('mountain_peak_id', $request->mountain_peak_id);
         return DataTables::of($tracks)
                 ->addIndexColumn()
                 ->editColumn('geojson', function ($row) {
                     return Str::limit(strip_tags($row->geojson), 100);
+                })
+                ->addColumn('detail', function ($row) {
+                    $html = '';
+                    $html .= '<img class="mr-2" width="25" src="'.asset('images/posts.png').'"/>';
+                    $html .= '<b>Total Posts : '.count($row->posts).'</b>';
+                    $html .= '<br />';
+
+                    $html .= '<img class="mr-2" width="25" src="'.asset('images/rivers.png').'"/>';
+                    $html .= '<b>Total Rivers : '.count($row->rivers).'</b>';
+                    $html .= '<br />';
+
+                    $html .= '<img class="mr-2" width="25" src="'.asset('images/waterfalls.png').'"/>';
+                    $html .= '<b>Total Waterfalls : '.count($row->waterfalls).'</b>';
+                    $html .= '<br />';
+
+                    $html .= '<img class="mr-2" width="25" src="'.asset('images/watersprings.png').'"/>';
+                    $html .= '<b>Total Watersprings : '.count($row->watersprings).'</b>';
+                    $html .= '<br />';
+
+                    return $html;
+                })
+                ->editColumn('status', function ($row) {
+                    $html = '';
+                    $html .= '<span class="badge badge-success">'.$row->status.'</span>';
+                    return $html;
                 })
                 ->addColumn('action', function ($row) {
                     $mountainPeak = MountainPeak::findOrFail($row->mountain_peak_id);
@@ -74,7 +104,7 @@ class MountainController extends Controller
                     $button .= '</div>';
                     return $button; 
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['detail', 'status', 'action'])
                 ->toJson();
     }
 

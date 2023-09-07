@@ -116,6 +116,7 @@
                             <th>No</th>
                             <th>Title</th>
                             <th>Geojson</th>
+                            <th width="175">Detail</th>
                             <th>Status</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -160,6 +161,10 @@
                     {
                         data: 'geojson',
                         name: 'geojson'
+                    },
+                    {
+                        data: 'detail',
+                        name: 'detail',
                     },
                     {
                         data: 'status',

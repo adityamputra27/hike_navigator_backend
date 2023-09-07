@@ -58,8 +58,8 @@
                         searchable: false
                     },
                     {
-                        data: 'user.fullname',
-                        name: 'user.fullname'
+                        data: 'user.name',
+                        name: 'user.name'
                     },
                     {
                         data: 'schedule_date',
