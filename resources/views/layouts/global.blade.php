@@ -109,8 +109,8 @@
                     <li class="{{ request()->routeIs('mountains.*') ? 'active' : '' }}">
                         <a href="/mountains"><span class="oi oi-map"></span>Daftar Destinasi</a>
                     </li>
-                    <li>
-                        <a href="/users"><span class="oi oi-location"></span>Rencana Pendakian</a>
+                    <li class="{{ request()->routeIs('climbing_plans.*') ? 'active' : '' }}">
+                        <a href="/climbing_plans"><span class="oi oi-location"></span>Rencana Pendakian</a>
                     </li>
                     <li class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <a href="/users"><span class="oi oi-people"></span>Manage Users</a>

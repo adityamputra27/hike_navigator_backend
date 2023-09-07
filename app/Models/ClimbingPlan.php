@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ClimbingPlan extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function mountain()
+    {
+        return $this->belongsTo(Mountain::class);
+    }
 }

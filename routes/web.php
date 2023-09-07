@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     DashboardController,
     MountainController,
     PeakController,
-    UserController
+    UserController,
+    ClimbingPlanController,
 };
 
 /*
@@ -53,6 +54,9 @@ Route::resource('mountains', MountainController::class);
 
 Route::post('peaks/datatables/', [PeakController::class, 'datatables'])->name('peaks.datatables');
 Route::resource('peaks', PeakController::class);
+
+Route::post('climbing_plans/datatables', [ClimbingPlanController::class, 'datatables'])->name('climbing_plans.datatables');
+Route::resource('climbing_plans', ClimbingPlanController::class);
 
 Route::post('users/datatables/', [UserController::class, 'datatables'])->name('users.datatables');
 Route::resource('users', UserController::class);
