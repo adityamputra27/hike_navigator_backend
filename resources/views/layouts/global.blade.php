@@ -7,6 +7,11 @@
     <title>Hike Navigator | Admin @yield('title')</title>
     <link rel="stylesheet" href="{{asset('polished/polished.min.css')}}">
     <link rel="stylesheet" href="{{asset('polished/iconic/css/open-iconic-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         .grid-highlight {
             padding-top: 1em;
@@ -22,6 +27,38 @@
         hr+.display-2+.display-3 {
             margin-bottom: 2em;
         }
+        @media (min-width:992px) {
+            .modal-lg,.modal-xl {
+                max-width:800px}
+            }
+        @media (min-width:1200px) {
+            .modal-xl {
+                max-width:1140px
+            }
+        }
+        /* custom marker */
+        .waterfall_markers {
+            background-image: url("{{ asset('images/waterfalls.png') }}");
+        }
+        .post_markers {
+            background-image: url("{{ asset('images/posts.png') }}");
+        }
+        .waterspring_markers {
+            background-image: url("{{ asset('images/watersprings.png') }}");
+        }
+        .river_markers {
+            background-image: url("{{ asset('images/rivers.png') }}");
+        }
+        .waterfall_markers,
+        .river_markers,
+        .waterspring_markers,
+        .post_markers {
+            background-size: cover;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+        }
+        /* end */
     </style>
     <script type="text/javascript">
         document.documentElement.className =
@@ -58,9 +95,39 @@
             <div class="polished-sidebar bg-light col-12 col-md-3 col-lg-2 p-0 collapse d-md-inline" id="sidebar-nav">
                 <ul class="polished-sidebar-menu ml-0 pt-4 p-0 d-md-block">
                     <input class="border-dark form-control d-block d-md-none mb-4" type="text" placeholder="Search" aria-label="Search" />
-                    <li>
+                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
                         <a href="/dashboard"><span class="oi oi-home"></span>Dashboard</a>
                     </li>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">API MOBILE NAVIGATION </a>
+                    </div>
+                    <li class="
+                        {{ request()->routeIs('peaks.*') 
+                        ? 'active' : '' }}">
+                        <a href="/peaks"><span class="oi oi-menu"></span>Data Master</a>
+                    </li>
+                    <li class="{{ request()->routeIs('mountains.*') ? 'active' : '' }}">
+                        <a href="/mountains"><span class="oi oi-map"></span>Daftar Destinasi</a>
+                    </li>
+                    <li class="{{ request()->routeIs('climbing_plans.*') ? 'active' : '' }}">
+                        <a href="/climbing_plans"><span class="oi oi-location"></span>Rencana Pendakian</a>
+                    </li>
+                    <li class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <a href="/users"><span class="oi oi-people"></span>Manage Users</a>
+                    </li>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">ADMOB NAVIGATION </a> 
+                        <ul class="list-unstyled">
+                            <li class=""><a href="#"><span class="oi oi-bullhorn"></span>Admob Configuration</a></li>
+                        </ul>
+                    </div>
+                    <div class="pt-3">
+                        <a href="#" class="pl-3 fs-smallest fw-bold text-muted">OTHER NAVIGATION </a> 
+                        <ul class="list-unstyled">
+                            <li class=""><a href="#"><span class="oi oi-pencil"></span>Edit Profile</a></li>
+                            <li class=""><a href="#"><span class="oi oi-account-logout"></span>Logout</a></li>
+                        </ul>
+                    </div>
                     <div class="d-block d-md-none">
                         <div class="dropdown-divider"></div>
                         <li><a href="#"> Profile</a></li>
@@ -79,7 +146,7 @@
                 </div>
             </div>
             <div class="col-lg-10 col-md-9 p-4">
-                <div class="row ">
+                <div class="row">
                     <div class="col-md-12 pl-3 pt-2">
                         <div class="pl-3">
                         <h3>@yield("title")</h3>
@@ -92,7 +159,15 @@
         </div>
      </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    @stack('map-scripts')
+    @yield('scripts')
 </body>
 </html>
