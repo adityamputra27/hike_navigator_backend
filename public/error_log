@@ -1,0 +1,2 @@
+[23-Aug-2023 09:27:55 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 5.6.40. in /home/dittmptr/hike-navigator.dittmptrr27.com/vendor/composer/platform_check.php on line 25
+[23-Aug-2023 09:30:24 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 5.6.40. in /home/dittmptr/hike-navigator.dittmptrr27.com/vendor/composer/platform_check.php on line 25
