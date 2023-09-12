@@ -45,12 +45,15 @@ class AuthController extends Controller
                 ]);
             } else {
                 $user = new User;
+                $user->username = '';
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->role = 'HIKER';
                 $user->status = 'ACTIVE';
                 $user->avatar = 'default.png';
                 $user->password = Hash::make($request->password);
+                $user->address = '';
+                $user->phone = '';
                 $user->save();
 
                 return response()->json([
