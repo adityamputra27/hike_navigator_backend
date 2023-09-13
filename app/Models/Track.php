@@ -16,7 +16,7 @@ class Track extends Model
 
     public function waterfalls()
     {
-        return $this->hasMany(WaterFall::class);
+        return $this->hasMany(Waterfall::class);
     }
 
     public function watersprings()
