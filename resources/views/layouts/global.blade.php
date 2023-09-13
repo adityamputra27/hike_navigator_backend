@@ -96,7 +96,7 @@
                 <ul class="polished-sidebar-menu ml-0 pt-4 p-0 d-md-block">
                     <input class="border-dark form-control d-block d-md-none mb-4" type="text" placeholder="Search" aria-label="Search" />
                     <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
-                        <a href="/dashboard"><span class="oi oi-home"></span>Dashboard</a>
+                        <a href="/dashboard" style="font-weight: bold;"><span class="oi oi-home"></span>Dashboard</a>
                     </li>
                     <div class="pt-3">
                         <a href="#" class="pl-3 fs-smallest fw-bold text-muted">API MOBILE NAVIGATION </a>
@@ -104,34 +104,34 @@
                     <li class="
                         {{ request()->routeIs('peaks.*') 
                         ? 'active' : '' }}">
-                        <a href="/peaks"><span class="oi oi-menu"></span>Data Master</a>
+                        <a href="/peaks" style="font-weight: bold;"><span class="oi oi-menu"></span>Data Master</a>
                     </li>
                     <li class="{{ request()->routeIs('mountains.*') ? 'active' : '' }}">
-                        <a href="/mountains"><span class="oi oi-map"></span>Daftar Destinasi</a>
+                        <a href="/mountains" style="font-weight: bold;"><span class="oi oi-map"></span>Daftar Destinasi</a>
                     </li>
                     <li class="{{ request()->routeIs('climbing_plans.*') ? 'active' : '' }}">
-                        <a href="/climbing_plans"><span class="oi oi-location"></span>Rencana Pendakian</a>
+                        <a href="/climbing_plans" style="font-weight: bold;"><span class="oi oi-location"></span>Rencana Pendakian</a>
                     </li>
                     <li class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
-                        <a href="/users"><span class="oi oi-people"></span>Manage Users</a>
+                        <a href="/users" style="font-weight: bold;"><span class="oi oi-people"></span>Manage Users</a>
                     </li>
                     <div class="pt-3">
                         <a href="#" class="pl-3 fs-smallest fw-bold text-muted">ADMOB NAVIGATION </a> 
                         <ul class="list-unstyled">
-                            <li class=""><a href="#"><span class="oi oi-bullhorn"></span>Admob Configuration</a></li>
+                            <li class="" style="font-weight: bold;"><a href="#"><span class="oi oi-bullhorn"></span>Admob Configuration</a></li>
                         </ul>
                     </div>
                     <div class="pt-3">
                         <a href="#" class="pl-3 fs-smallest fw-bold text-muted">OTHER NAVIGATION </a> 
                         <ul class="list-unstyled">
-                            <li class=""><a href="#"><span class="oi oi-pencil"></span>Edit Profile</a></li>
-                            <li class=""><a href="#"><span class="oi oi-account-logout"></span>Logout</a></li>
+                            <li class=""><a href="#" style="font-weight: bold;"><span class="oi oi-pencil"></span>Edit Profile</a></li>
+                            <li class=""><a href="#" style="font-weight: bold;"><span class="oi oi-account-logout"></span>Logout</a></li>
                         </ul>
                     </div>
                     <div class="d-block d-md-none">
                         <div class="dropdown-divider"></div>
-                        <li><a href="#"> Profile</a></li>
-                        <li><a href="#"> Setting</a></li>
+                        <li><a href="#" style="font-weight: bold;"> Profile</a></li>
+                        <li><a href="#" style="font-weight: bold;"> Setting</a></li>
                         <li>
                             <form action="{{route("logout")}}" method="POST">
                             @csrf
@@ -141,9 +141,6 @@
                         </li>
                     </div>
                 </ul>
-                <div class="pl-3 d-none d-md-block position-fixed" style="bottom: 0px">
-                    <span class="oi oi-cog"></span> Setting
-                </div>
             </div>
             <div class="col-lg-10 col-md-9 p-4">
                 <div class="row">
