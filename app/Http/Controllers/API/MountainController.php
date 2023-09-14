@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{
     Mountain
 };
+use Storage;
 
 class MountainController extends Controller
 {
