@@ -12,6 +12,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <style>
         .grid-highlight {
             padding-top: 1em;
@@ -57,6 +58,26 @@
             width: 35px;
             height: 35px;
             cursor: pointer;
+        }
+        .dz-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .dropzone.dz-started .dz-message {
+            display: block !important;
+        }
+        .dropzone {
+            border: 2px dashed #5c6ac4 !important;
+        }
+        .dropzone .dz-preview.dz-complete .dz-success-mark {
+            opacity: 1;
+        }
+        .dropzone .dz-preview.dz-error .dz-success-mark {
+            opacity: 0;
+        }
+        .dropzone .dz-preview .dz-error-message {
+            top: 144px;
         }
         /* end */
     </style>
@@ -158,6 +179,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

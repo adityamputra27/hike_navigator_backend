@@ -36,6 +36,12 @@ Auth::routes();
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
 
 Route::post('mountains/datatables/', [MountainController::class, 'datatables'])->name('mountains.datatables');
+
+Route::get('mountains/{mountainId}/uploadImages', [MountainController::class, 'uploadImages'])->name('mountains.uploadImages');
+Route::post('mountains/{mountainId}/storeImages', [MountainController::class, 'storeImages'])->name('mountains.storeImages');
+Route::get('mountains/{mountainId}/fetchImages', [MountainController::class, 'fetchImages'])->name('mountains.fetchImages');
+Route::post('mountains/{mountainId}/deleteImages', [MountainController::class, 'deleteImages'])->name('mountains.deleteImages');
+
 Route::post('mountains/peakDatatables/', [MountainController::class, 'peakDatatables'])->name('mountains.peakDatatables');
 Route::post('mountains/storePeaks', [MountainController::class, 'storePeaks'])->name('mountains.storePeaks');
 Route::delete('mountains/destroyPeak/{mountainPeakId}', [MountainController::class, 'destroyPeak'])->name('mountains.destroyPeak');

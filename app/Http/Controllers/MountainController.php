@@ -8,12 +8,14 @@ use App\Models\{
     Mountain,
     Peak,
     MountainPeak,
+    MountainImage,
     Track
 };
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Storage;
 
 class MountainController extends Controller
 {
@@ -30,7 +32,7 @@ class MountainController extends Controller
                 ->addColumn('action', function ($row) {
                     $button = '<div class="btn-group">';
                     $button .= '<a href="#" class="btn btn-sm btn-info" data-mountain_id="'.$row->id.'" data-toggle="modal" data-target="#peaksModal"><i class="oi oi-plus"></i>&nbsp;Route</a>';
-                    $button .= '<a href="'.route('mountains.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="oi oi-image"></i>&nbsp;Image</a>';
+                    $button .= '<a href="'.route('mountains.uploadImages', $row->id).'" class="btn btn-sm btn-primary"><i class="oi oi-image"></i>&nbsp;Image</a>';
                     $button .= '<a href="'.route('mountains.edit', $row->id).'" class="btn btn-sm btn-warning"><i class="oi oi-pencil"></i>&nbsp;Edit</a>';
                     $button .= '<a href="#" data-route="'.route('mountains.destroy', $row->id).'" class="btn btn-sm btn-danger delete"><i class="oi oi-trash"></i>&nbsp;Delete</a>';
                     $button .= '</div>';
@@ -106,6 +108,75 @@ class MountainController extends Controller
                 })
                 ->rawColumns(['detail', 'status', 'action'])
                 ->toJson();
+    }
+
+    public function fetchImages(Request $request, $id)
+    {
+        $mountainImages = MountainImage::where('mountain_id', $id)->pluck('image')->toArray();
+        $storeFolder = storage_path('app/public/mountain-images/');
+        $filePath = storage_path('app/public/');
+        $files = scandir($storeFolder);
+
+        $data = [];
+        foreach ($files as $key => $file) {
+            if ($file != '.' && $file != '..' && in_array($file, $mountainImages)) {
+                $obj['name'] = $file;
+                $filePath = storage_path('app/public/mountain-images/').$file;
+                $obj['size'] = filesize($filePath);
+                $obj['path'] = Storage::url('mountain-images/'.$file);
+                $data[] = $obj;
+            }
+        }
+
+        return response()->json($data);
+    }
+
+    public function uploadImages($id)
+    {
+        $mountain = Mountain::findOrFail($id);
+
+        $data['route']['fetchImages'] = route('mountains.fetchImages', $id);
+        $data['route']['storeImages'] = route('mountains.storeImages', $id);
+        $data['route']['deleteImages'] = route('mountains.deleteImages', $id);
+        return view('mountains.upload', [
+            'mountain' => $mountain,
+            'route' => $data['route']
+        ]);
+    }
+
+    public function storeImages(Request $request, $id)
+    {
+        $image = $request->file('file');
+        $fileInfo = $image->getClientOriginalName();
+        $filename = pathinfo($fileInfo, PATHINFO_FILENAME);
+        $extension = pathinfo($fileInfo, PATHINFO_EXTENSION);
+
+        $fileName = $filename.'-'.time().'.'.$extension;
+        $image->store('mountain-images', 'public');
+
+        $mountainImages = new MountainImage;
+        $mountainImages->mountain_id = $id;
+        $mountainImages->original_filename = $fileInfo;
+        $mountainImages->image = $image->hashName();
+        $mountainImages->filename = $fileName;
+        $mountainImages->user_id = Auth::id();
+        $mountainImages->save();
+        
+        return response()->json([
+            'success' => $fileName
+        ]);
+    }
+
+    public function deleteImages(Request $request, $id)
+    {
+        $image = $request->image;
+        MountainImage::where('mountain_id', $id)->where('image', $image)->delete();
+
+        $path = storage_path('app/public/mountain-images/'.$image);
+        if (file_exists($path)) {
+            Storage::delete('public/mountain-images/'.$image);
+        }
+        return response()->json(['success' => $image]);
     }
 
     public function storePeaks(Request $request)

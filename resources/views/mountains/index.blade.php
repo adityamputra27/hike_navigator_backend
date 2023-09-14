@@ -176,6 +176,16 @@
                 peakTable.draw()
             })
 
+            $('#imagesModal').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget)
+                let modal = $(this)
+                let route = button.data('route')
+                let name = button.data('name')
+
+                modal.find('.modal-body form').attr('action', route)
+                modal.find('.modal-header #mountainName').text(name)
+            })
+
             $('#mountainPeaksForm').on('submit', function (event) {
                 event.preventDefault()
                 let peakId = $(this).find('#peak_id').val()
