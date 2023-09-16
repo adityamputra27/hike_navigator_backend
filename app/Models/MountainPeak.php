@@ -21,6 +21,6 @@ class MountainPeak extends Model
 
     public function track()
     {
-        return $this->hasOne(Track::class);
+        return $this->hasMany(Track::class);
     }
 }
