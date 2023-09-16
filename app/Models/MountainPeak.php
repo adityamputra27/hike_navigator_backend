@@ -19,7 +19,7 @@ class MountainPeak extends Model
         return $this->belongsTo(Peak::class);
     }
 
-    public function track()
+    public function tracks()
     {
         return $this->hasMany(Track::class);
     }
