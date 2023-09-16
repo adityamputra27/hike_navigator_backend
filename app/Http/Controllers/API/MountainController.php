@@ -15,10 +15,10 @@ class MountainController extends Controller
     {
         $mountains = Mountain::with([
                                         'province', 'city', 'mountainImages', 'mountainPeaks.mountain', 
-                                        'mountainPeaks.peak', 'mountainPeaks.track',
-                                        'mountainPeaks.track.marks', 'mountainPeaks.track.waterfalls', 
-                                        'mountainPeaks.track.watersprings', 'mountainPeaks.track.rivers', 
-                                        'mountainPeaks.track.posts',
+                                        'mountainPeaks.peak', 'mountainPeaks.tracks',
+                                        'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
+                                        'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
+                                        'mountainPeaks.tracks.posts',
                                     ])->orderBy('name', 'ASC')->get();
 
         return response()->json([
