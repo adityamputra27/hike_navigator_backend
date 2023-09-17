@@ -11,15 +11,33 @@ use Storage;
 
 class MountainController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mountains = Mountain::with([
-                                        'province', 'city', 'mountainImages', 'mountainPeaks.mountain', 
-                                        'mountainPeaks.peak', 'mountainPeaks.tracks',
-                                        'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
-                                        'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
-                                        'mountainPeaks.tracks.posts',
-                                    ])->orderBy('name', 'ASC')->get();
+        $provinceId = $request->get('provinceId');
+        $keyword = $request->get('keyword');
+        
+        if ($provinceId) {
+            $mountains = Mountain::with([
+                'province', 'city', 'mountainImages', 'mountainPeaks.mountain', 
+                'mountainPeaks.peak', 'mountainPeaks.tracks',
+                'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
+                'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
+                'mountainPeaks.tracks.posts',
+            ])
+            ->where('province_id', $provinceId)
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orderBy('name', 'ASC')->get();
+        } else {
+            $mountains = Mountain::with([
+                'province', 'city', 'mountainImages', 'mountainPeaks.mountain', 
+                'mountainPeaks.peak', 'mountainPeaks.tracks',
+                'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
+                'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
+                'mountainPeaks.tracks.posts',
+            ])
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orderBy('name', 'ASC')->get();
+        }
 
         return response()->json([
             'message' => 'success',
