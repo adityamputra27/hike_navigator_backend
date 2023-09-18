@@ -6,6 +6,7 @@ use App\Http\Controllers\API\{
     AuthController,
     MountainController,
     ClimbingPlanController,
+    ConfigurationController,
 };
 
 /*
@@ -32,4 +33,6 @@ Route::middleware('auth.api')->group(function () {
     Route::post('climbing-plans/create/', [ClimbingPlanController::class, 'create']);
     Route::get('climbing-plans/getActiveUser/{userId}/', [ClimbingPlanController::class, 'getActiveUser']);
     Route::get('climbing-plans/getSavedUser/{userId}/', [ClimbingPlanController::class, 'getSavedUser']);
+
+    Route::get('configuration/getActiveProvinces', [ConfigurationController::class, 'getActiveProvinces']);
 });
