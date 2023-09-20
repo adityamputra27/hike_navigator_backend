@@ -26,11 +26,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::get('forgot-password/check', [AuthController::class, 'check']);
+Route::post('forgot-password/store', [AuthController::class, 'forgotPassword']);
 
 Route::middleware('auth.api')->group(function () {
     Route::get('mountains', [MountainController::class, 'index']);
 
     Route::post('climbing-plans/create/', [ClimbingPlanController::class, 'create']);
+    Route::get('climbing-plans/{id}/cancel/', [ClimbingPlanController::class, 'cancel']);
     Route::get('climbing-plans/getActiveUser/{userId}/', [ClimbingPlanController::class, 'getActiveUser']);
     Route::get('climbing-plans/getSavedUser/{userId}/', [ClimbingPlanController::class, 'getSavedUser']);
 

@@ -69,8 +69,75 @@ class AuthController extends Controller
         }
     }
 
+    public function check(Request $request)
+    {
+        if ($request->email == '') {
+            return response()->json([
+                'status' => 500,
+                'message' => "email can't be null"
+            ]);
+        }
+
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'status' => 500,
+                'message' => "email not valid"
+            ]);
+        }
+
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => "email not found"
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'email found'
+        ]);
+    }
+
     public function forgotPassword(Request $request)
     {
+        if ($request->email == '') {
+            return response()->json([
+                'status' => 500,
+                'message' => "email can't be null"
+            ]);
+        }
 
+        if ($request->password == '' || $request->confirmation_password == '') {
+            return response()->json([
+                'status' => 500,
+                'message' => "password can't be null"
+            ]);
+        }
+
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'status' => 500,
+                'message' => "email not valid"
+            ]);
+        }
+
+        if ($request->confirmation_password != $request->password) {
+            return response()->json([
+                'status' => 500,
+                'message' => "confirmation password not match with password"
+            ]);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'successfully reset password',
+            'token' => $token
+        ]);
     }
 }
