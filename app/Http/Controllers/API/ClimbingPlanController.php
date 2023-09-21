@@ -32,14 +32,17 @@ class ClimbingPlanController extends Controller
 
         if ($request->schedule_date) {
             $scheduleDate = $request->schedule_date;
-        } else {
-            $scheduleDate = null;
-        }
-
-        $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
+            $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
                                             ->where('mountain_id', $request->mountain_id)
                                             ->whereDate('schedule_date', $scheduleDate)
                                             ->where('status', $request->status)->first();
+        } else {
+            $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
+                                            ->where('mountain_id', $request->mountain_id)
+                                            ->where('status', $request->status)->first();
+        }
+
+        
         if ($climbingPlanUser) {
             return response()->json([
                 'status' => 500,
