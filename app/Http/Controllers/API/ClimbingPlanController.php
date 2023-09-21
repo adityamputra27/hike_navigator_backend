@@ -132,7 +132,7 @@ class ClimbingPlanController extends Controller
         }
 
         if ($provinceId) {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages'])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -140,7 +140,7 @@ class ClimbingPlanController extends Controller
                                     ->where('is_cancel', 0)
                                     ->where('user_id', $userId)->where('status', 'SAVED')->get();
         } else {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages'])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })
