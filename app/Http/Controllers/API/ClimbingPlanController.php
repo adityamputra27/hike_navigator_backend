@@ -30,13 +30,6 @@ class ClimbingPlanController extends Controller
             ]);
         }
 
-        if ($request->schedule_date == '0000-00-00') {
-            return response()->json([
-                'status' => 500,
-                'message' => "format schedule date not valid"
-            ]);
-        }
-
         $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
                                             ->where('mountain_id', $request->mountain_id)
                                             ->whereDate('schedule_date', $request->schedule_date)
