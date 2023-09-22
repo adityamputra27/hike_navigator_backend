@@ -6,13 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{
     Province,
+    Mountain,
 };
 
 class ConfigurationController extends Controller
 {
     public function getActiveProvinces(Request $request)
     {
-        $provinces = Province::orderBy('name', 'ASC')->get();
+        $provinceExists = Mountain::orderBy('name', 'ASC')->groupBy('province_id')->pluck('province_id');
+        if (!empty($provinceExists)) {
+            $provinces = Province::orderBy('name', 'ASC')->whereIn('id', $provinceExists)->get();
+        } else {
+            $provinces = Province::orderBy('name', 'ASC')->whereIn('id', [0])->get();
+        }
+
         return response()->json([
             'status' => 200,
             'message' => 'success',
