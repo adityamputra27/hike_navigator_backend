@@ -98,7 +98,14 @@ class ClimbingPlanController extends Controller
         }
 
         if ($provinceId) {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain.mountainImages', 'mountain.province', 'mountain.city'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.mountainImages', 'mountain.province', 
+                                                'mountain.city', 'mountain.mountainPeaks.mountain', 
+                                                'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                                'mountain.mountainPeaks.tracks.marks', 
+                                                'mountain.mountainPeaks.tracks.waterfalls', 
+                                                'mountain.mountainPeaks.tracks.watersprings', 
+                                                'mountain.mountainPeaks.tracks.rivers', 
+                                                'mountain.mountainPeaks.tracks.posts',])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -106,7 +113,14 @@ class ClimbingPlanController extends Controller
                                     ->where('is_cancel', 0)
                                     ->where('user_id', $userId)->where('status', 'ACTIVE')->get();
         } else {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain.mountainImages', 'mountain.province', 'mountain.city'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.mountainImages', 'mountain.province', 
+                                                'mountain.city', 'mountain.mountainPeaks.mountain', 
+                                                'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                                'mountain.mountainPeaks.tracks.marks', 
+                                                'mountain.mountainPeaks.tracks.waterfalls', 
+                                                'mountain.mountainPeaks.tracks.watersprings', 
+                                                'mountain.mountainPeaks.tracks.rivers', 
+                                                'mountain.mountainPeaks.tracks.posts',])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })
