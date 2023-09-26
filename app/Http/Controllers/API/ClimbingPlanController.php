@@ -105,7 +105,7 @@ class ClimbingPlanController extends Controller
                                                 'mountain.mountainPeaks.tracks.waterfalls', 
                                                 'mountain.mountainPeaks.tracks.watersprings', 
                                                 'mountain.mountainPeaks.tracks.rivers', 
-                                                'mountain.mountainPeaks.tracks.posts',])
+                                                'mountain.mountainPeaks.tracks.posts'])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -120,7 +120,7 @@ class ClimbingPlanController extends Controller
                                                 'mountain.mountainPeaks.tracks.waterfalls', 
                                                 'mountain.mountainPeaks.tracks.watersprings', 
                                                 'mountain.mountainPeaks.tracks.rivers', 
-                                                'mountain.mountainPeaks.tracks.posts',])
+                                                'mountain.mountainPeaks.tracks.posts'])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })
@@ -148,7 +148,14 @@ class ClimbingPlanController extends Controller
         }
 
         if ($provinceId) {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages',
+                                    'mountain.mountainPeaks.mountain', 
+                                    'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                    'mountain.mountainPeaks.tracks.marks', 
+                                    'mountain.mountainPeaks.tracks.waterfalls', 
+                                    'mountain.mountainPeaks.tracks.watersprings', 
+                                    'mountain.mountainPeaks.tracks.rivers', 
+                                    'mountain.mountainPeaks.tracks.posts'])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -156,7 +163,14 @@ class ClimbingPlanController extends Controller
                                     ->where('is_cancel', 0)
                                     ->where('user_id', $userId)->where('status', 'SAVED')->get();
         } else {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages'])
+            $climbingPlans = ClimbingPlan::with(['user', 'mountain.province', 'mountain.city', 'mountain.mountainImages',
+                                    'mountain.mountainPeaks.mountain', 
+                                    'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                    'mountain.mountainPeaks.tracks.marks', 
+                                    'mountain.mountainPeaks.tracks.waterfalls', 
+                                    'mountain.mountainPeaks.tracks.watersprings', 
+                                    'mountain.mountainPeaks.tracks.rivers', 
+                                    'mountain.mountainPeaks.tracks.posts'])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })
