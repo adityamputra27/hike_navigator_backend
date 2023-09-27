@@ -9,6 +9,7 @@ use App\Models\{
     Mountain,
     User,
 };
+use Carbon\Carbon;
 
 class ClimbingPlanController extends Controller
 {
@@ -31,10 +32,10 @@ class ClimbingPlanController extends Controller
         }
 
         if ($request->schedule_date) {
-            $scheduleDate = $request->schedule_date;
+            $scheduleDate = Carbon::createFromFormat('Y-m-d H:i:s')->format($request->schedule_date);
             $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
                                             ->where('mountain_id', $request->mountain_id)
-                                            ->where('schedule_date', $scheduleDate)
+                                            ->whereDate('schedule_date', $scheduleDate)
                                             ->where('status', $request->status)->first();
         } else {
             $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
