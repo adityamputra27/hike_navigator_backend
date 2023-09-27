@@ -47,7 +47,7 @@ class ClimbingPlanController extends Controller
         if ($climbingPlanUser) {
             return response()->json([
                 'status' => 500,
-                'message' => "can't create schedule with same destination and same day"
+                'message' => "can't create schedule with same destination or same day!"
             ]);
         }
 
