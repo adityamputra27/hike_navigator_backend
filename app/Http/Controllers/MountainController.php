@@ -248,7 +248,6 @@ class MountainController extends Controller
         if (empty($track)) {
             return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
         }
-
         $mountainPeak = MountainPeak::with(['mountain', 'peak', 'tracks.waterfalls', 'tracks.rivers', 'tracks.posts', 'tracks.watersprings'])->where('id', $track->mountain_peak_id)->first();
 
         return view('mountains.edit-tracks', [

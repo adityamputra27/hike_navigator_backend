@@ -136,7 +136,9 @@
             });
 
             // get all track detail
-            let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($mountainPeak->track) }}"))
+            let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($mountainPeak->tracks) }}"))
+            console.log(tracks)
+            
             for (const waterfall of tracks.waterfalls) {
                 const el = document.createElement('div')
                 el.className = 'waterfall_markers';
