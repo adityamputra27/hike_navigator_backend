@@ -34,7 +34,7 @@ class ClimbingPlanController extends Controller
             $scheduleDate = $request->schedule_date;
             $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
                                             ->where('mountain_id', $request->mountain_id)
-                                            ->whereDate('schedule_date', $scheduleDate)
+                                            ->where('schedule_date', $scheduleDate)
                                             ->where('status', $request->status)->first();
         } else {
             $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
