@@ -22,7 +22,8 @@ class MountainController extends Controller
                 'mountainPeaks.peak', 'mountainPeaks.tracks',
                 'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
                 'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
-                'mountainPeaks.tracks.posts',
+                'mountainPeaks.tracks.posts', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
+                'mountainWatersprings', 'mountainRivers', 'mountainPosts'
             ])
             ->where('province_id', $provinceId)
             ->where('name', 'LIKE', "%$keyword%")
@@ -33,7 +34,8 @@ class MountainController extends Controller
                 'mountainPeaks.peak', 'mountainPeaks.tracks',
                 'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
                 'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
-                'mountainPeaks.tracks.posts',
+                'mountainPeaks.tracks.posts', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
+                'mountainWatersprings', 'mountainRivers', 'mountainPosts'
             ])
             ->where('name', 'LIKE', "%$keyword%")
             ->orderBy('name', 'ASC')->get();

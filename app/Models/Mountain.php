@@ -28,4 +28,34 @@ class Mountain extends Model
     {
         return $this->hasMany(MountainPeak::class);
     }
+
+    public function mountainTracks()
+    {
+        return $this->hasMany(Track::class);
+    }
+
+    public function mountainMarks()
+    {
+        return $this->hasMany(Mark::class);
+    }
+
+    public function mountainWaterfalls()
+    {
+        return $this->hasMany(Waterfall::class);
+    }
+
+    public function mountainWatersprings()
+    {
+        return $this->hasMany(WaterSpring::class);
+    }
+
+    public function mountainRivers()
+    {
+        return $this->hasMany(River::class);
+    }
+
+    public function mountainPosts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
