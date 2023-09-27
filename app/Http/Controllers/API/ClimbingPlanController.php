@@ -55,6 +55,8 @@ class ClimbingPlanController extends Controller
         $newClimbingPlan->schedule_date = $request->schedule_date;
         $newClimbingPlan->is_map_download = 'SUCCESS';
         $newClimbingPlan->user_id = $request->user_id;
+        $newClimbingPlan->mountain_peak_id = $request->mountain_peak_id;
+        $newClimbingPlan->track_id = $request->track_id;
         
         if ($request->status == 'SAVED') {
             $newClimbingPlan->status = 'SAVED';
