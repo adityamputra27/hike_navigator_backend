@@ -32,7 +32,7 @@ class ClimbingPlanController extends Controller
         }
 
         if ($request->schedule_date) {
-            $scheduleDate = Carbon::createFromFormat('Y-m-d H:i:s')->format($request->schedule_date);
+            $scheduleDate = Carbon::createFromFormat('Y-m-d H:i:s', $request->schedule_date);
             $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
                                             ->where('mountain_id', $request->mountain_id)
                                             ->whereDate('schedule_date', $scheduleDate)
