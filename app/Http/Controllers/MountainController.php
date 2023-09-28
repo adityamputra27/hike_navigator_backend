@@ -228,6 +228,7 @@ class MountainController extends Controller
     public function storeTrack(Request $request, $mountainId, $peakId)
     {
         $track = new Track();
+        $track->mountain_id = $mountainId;
         $track->mountain_peak_id = $request->mountain_peak_id;
         $track->geojson = $request->geojson_modal;
         $track->title = $request->title;
@@ -244,7 +245,8 @@ class MountainController extends Controller
 
     public function editTrack(Request $request, $mountainId, $peakId, $trackId)
     {
-        $track = Track::where('id', $trackId)->first();
+        $track = Track::with(['marks', 'waterfalls', 'watersprings', 'rivers', 'posts'])
+                        ->where('id', $trackId)->first();
         if (empty($track)) {
             return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
         }
@@ -261,6 +263,7 @@ class MountainController extends Controller
     public function updateTrack(Request $request, $mountainId, $peakId, $trackId)
     {
         $params['value'] = $request->value;
+        $params['mountain_id'] = $mountainId;
         $params['mountain_peak_id'] = $request->mountain_peak_id;
         $params['track_id'] = $trackId;
         $params['request'] = $request;
@@ -292,6 +295,7 @@ class MountainController extends Controller
         $table = Str::lower($params['value']);
 
         return DB::table($table)->insert([
+            'mountain_id' => $params['mountain_id'],
             'mountain_peak_id' => $params['mountain_peak_id'],
             'track_id' => $params['track_id'],
             'title' => $params['request']->title,

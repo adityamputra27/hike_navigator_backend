@@ -136,7 +136,7 @@
             });
 
             // get all track detail
-            let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($mountainPeak->tracks) }}"))
+            let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($track) }}"))
             console.log(tracks)
             
             for (const waterfall of tracks.waterfalls) {
