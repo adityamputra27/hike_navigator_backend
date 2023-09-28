@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('longitude');
             $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->unsignedBigInteger('user_id');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('mountain_peak_id')->references('id')->on('mountain_peaks');

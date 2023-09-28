@@ -25,6 +25,9 @@ class MountainController extends Controller
                 'mountainPeaks.tracks.posts', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
                 'mountainWatersprings', 'mountainRivers', 'mountainPosts'
             ])
+            ->whereHas('mountainPeaks.tracks', function ($query) {
+                $query->select('id');
+            })
             ->where('province_id', $provinceId)
             ->where('name', 'LIKE', "%$keyword%")
             ->orderBy('name', 'ASC')->get();

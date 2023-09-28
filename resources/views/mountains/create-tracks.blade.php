@@ -10,6 +10,7 @@
                 <div>
                     <button class="btn btn-primary" id="saveTrack" data-toggle="modal" data-target="#trackModal" type="button"><i class="oi oi-circle-check"></i> Save Track</button>
                     <input type="hidden" id="geojson">
+                    <input type="hidden" id="coordinates">
                     <a href="#" class="btn btn-info"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
                 </div>
             </div>
@@ -40,6 +41,10 @@
                     <div class="form-group">
                         <label for="">Geojson :</label>
                         <input type="text" name="geojson_modal" readonly id="geojson_modal" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Coordinates :</label>
+                        <input type="text" name="coordinates_modal" readonly id="coordinates_modal" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Description <small>(optional)</small></label>
@@ -122,6 +127,7 @@
             let endPoint = null
             let route = null
             let pointCount = 0
+            let coordinates = []
 
             map.on('click', function (e) {
                 if (!startPoint) {
@@ -173,17 +179,23 @@
 
                     map.getSource('route').setData(route)
                     startPoint = endPoint
+
+                    coordinates.push(
+                        [startPoint.lng, startPoint.lat], [endPoint.lng, endPoint.lat]
+                    )
                 }
 
                 if (pointCount >= 2) {
                     $('#saveTrack').show()
                     $('#geojson').val(JSON.stringify(route))
+                    $('#coordinates').val(JSON.stringify(coordinates))
                 }
             })
 
             $('#trackModal').on('show.bs.modal', function (e) {
                 let modal = $(this)
                 modal.find('.modal-body #geojson_modal').val($('#geojson').val())
+                modal.find('.modal-body #coordinates_modal').val($('#coordinates').val())
             })
         })
     </script>

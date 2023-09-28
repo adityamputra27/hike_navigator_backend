@@ -231,6 +231,7 @@ class MountainController extends Controller
         $track->mountain_id = $mountainId;
         $track->mountain_peak_id = $request->mountain_peak_id;
         $track->geojson = $request->geojson_modal;
+        $track->coordinates = $request->coordinates_modal;
         $track->title = $request->title;
         $track->description = $request->description != '' ? $request->description : '-';
         $track->user_id = Auth::id();

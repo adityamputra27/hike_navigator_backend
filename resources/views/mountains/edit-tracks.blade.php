@@ -91,7 +91,7 @@
             let map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
-                zoom: 10,
+                zoom: 13,
                 center: ["{{ $mountain->longitude }}", "{{ $mountain->latitude }}"],
             });
 
