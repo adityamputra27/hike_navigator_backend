@@ -31,23 +31,17 @@ class ClimbingPlanController extends Controller
             ]);
         }
 
-        if ($request->schedule_date) {
-            $scheduleDate = Carbon::createFromFormat('Y-m-d H:i:s', $request->schedule_date);
-            $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
-                                            ->where('mountain_id', $request->mountain_id)
-                                            ->whereDate('schedule_date', $scheduleDate)
-                                            ->where('status', $request->status)->first();
-        } else {
-            $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
-                                            ->where('mountain_id', $request->mountain_id)
-                                            ->where('status', $request->status)->first();
-        }
-
+        $climbingPlanUser = ClimbingPlan::where('user_id', $request->user_id)
+                                        ->where('mountain_id', $request->mountain_id)
+                                        ->where('is_cancel', 0)
+                                        ->where('status', $request->status)
+                                        ->where('status_finished', 'PROCESS')
+                                        ->get();
         
-        if ($climbingPlanUser) {
+        if (count($climbingPlanUser) > 0) {
             return response()->json([
                 'status' => 500,
-                'message' => "can't create schedule with same destination or same day!"
+                'message' => "can't create schedule with same destination or same time!"
             ]);
         }
 
