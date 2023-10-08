@@ -38,6 +38,9 @@
             }
         }
         /* custom marker */
+        .mountain_markers {
+            background-image: url("{{ asset('images/mountain_marker.png') }}");
+        }
         .waterfall_markers {
             background-image: url("{{ asset('images/waterfalls.png') }}");
         }
@@ -50,10 +53,20 @@
         .river_markers {
             background-image: url("{{ asset('images/rivers.png') }}");
         }
+        .mark_markers {
+            background-image: url("{{ asset('images/marks.png') }}");
+        }
+        .mountain_markers {
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
         .waterfall_markers,
         .river_markers,
         .waterspring_markers,
-        .post_markers {
+        .post_markers,
+        .mark_markers {
             background-size: cover;
             width: 35px;
             height: 35px;

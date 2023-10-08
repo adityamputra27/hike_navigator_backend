@@ -11,10 +11,15 @@
                     <button class="btn btn-primary" id="saveTrack" data-toggle="modal" data-target="#trackModal" type="button"><i class="oi oi-circle-check"></i> Save Track</button>
                     <input type="hidden" id="geojson">
                     <input type="hidden" id="coordinates">
-                    <a href="#" class="btn btn-info"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
+                    <input type="hidden" name="start_latitude" id="start_latitude">
+                    <input type="hidden" name="start_longitude" id="start_longitude">
                 </div>
             </div>
             <div class="card-body">
+                <div class="alert alert-info">
+                    <strong><i class="oi oi-info"></i> Perhatian!</strong><br>
+                    Setiap rute akhir ketika membuat track akan menjadi <b>start point user!</b>
+                </div>
                 <div id="map" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
@@ -47,6 +52,17 @@
                         <input type="text" name="coordinates_modal" readonly id="coordinates_modal" class="form-control">
                     </div>
                     <div class="form-group">
+                        <label for="">Start Point :</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" name="start_latitude_modal" readonly id="start_latitude_modal" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="start_longitude_modal" readonly id="start_longitude_modal" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="">Description <small>(optional)</small></label>
                         <textarea name="description" id="description" class="form-control"></textarea>
                     </div>
@@ -68,7 +84,7 @@
             let map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
-                zoom: 10,
+                zoom: 13,
                 center: ["{{ $mountain->longitude }}", "{{ $mountain->latitude }}"],
             });
 
@@ -89,39 +105,40 @@
                 map.setCenter(userLocation);
             });
 
-                // set mountain and peak selected
-                let mountainLongitude = "{{ $mountain->longitude }}"
-                let mountainLatitude = "{{ $mountain->latitude }}"
-                if (mountainLongitude != '' && mountainLatitude != '') {
-                    const mountainMarker = new mapboxgl.Marker({ color: 'green', scale: 1 })
-                        .setLngLat({lng: mountainLongitude, lat: mountainLatitude})
-                        .addTo(map)
-                    
-                    const mountainPopup = new mapboxgl.Popup().setHTML(`
-                                                                        <b>{{ $mountain->name }}</b> {{ $mountain->height }}
-                                                                        <p class="mb-0">Lat: {{ $mountain->latitude }}</p>
-                                                                        <p class="mb-0">Long: {{ $mountain->longitude }}</p>
-                                                                    `)
-                    mountainMarker.setPopup(mountainPopup)
-                    mountainPopup.addTo(map)
-                }
-
-                let peakLongitude = "{{ $peak->longitude }}"
-                let peakLatitude = "{{ $peak->latitude }}"
-                if (peakLongitude != '' && peakLatitude != '') {
-                    const peakMarker = new mapboxgl.Marker({ color: 'purple', scale: 1 })
-                        .setLngLat({lng: peakLongitude, lat: peakLatitude})
-                        .addTo(map)
-
-                    const peakPopup = new mapboxgl.Popup().setHTML(`
-                                                                    <b>{{ $peak->name }}</b> {{ $peak->height }}
-                                                                    <p class="mb-0">Lat: {{ $peak->latitude }}</p>
-                                                                    <p class="mb-0">Long: {{ $peak->longitude }}</p>
+            // set mountain and peak selected
+            let mountainLongitude = "{{ $mountain->longitude }}"
+            let mountainLatitude = "{{ $mountain->latitude }}"
+            if (mountainLongitude != '' && mountainLatitude != '') {
+                const el = document.createElement('div')
+                el.className = 'mountain_markers';
+                const mountainMarker =  new mapboxgl.Marker(el).setLngLat({lng: mountainLongitude, lat: mountainLatitude}).addTo(map)
+                const mountainPopup = new mapboxgl.Popup().setHTML(`
+                                                                    <b>{{ $mountain->name }}</b> {{ $mountain->height }}
+                                                                    <p class="mb-0">Lat: {{ $mountain->latitude }}</p>
+                                                                    <p class="mb-0">Long: {{ $mountain->longitude }}</p>
                                                                 `)
-                    peakMarker.setPopup(peakPopup)
-                    peakPopup.addTo(map)
-                }
-                // end
+
+                                                                
+                mountainMarker.setPopup(mountainPopup)
+                mountainPopup.addTo(map)
+            }
+
+            let peakLongitude = "{{ $peak->longitude }}"
+            let peakLatitude = "{{ $peak->latitude }}"
+            if (peakLongitude != '' && peakLatitude != '') {
+                const el = document.createElement('div')
+                el.className = 'mountain_markers';
+                const peakMarker =  new mapboxgl.Marker(el).setLngLat({lng: peakLongitude, lat: peakLatitude}).addTo(map)
+
+                const peakPopup = new mapboxgl.Popup().setHTML(`
+                                                                <b>{{ $peak->name }}</b> {{ $peak->height }}
+                                                                <p class="mb-0">Lat: {{ $peak->latitude }}</p>
+                                                                <p class="mb-0">Long: {{ $peak->longitude }}</p>
+                                                            `)
+                peakMarker.setPopup(peakPopup)
+                peakPopup.addTo(map)
+            }
+            // end
 
             let startPoint = null
             let endPoint = null
@@ -189,6 +206,8 @@
                     $('#saveTrack').show()
                     $('#geojson').val(JSON.stringify(route))
                     $('#coordinates').val(JSON.stringify(coordinates))
+                    $('#start_latitude').val(endPoint.lat)
+                    $('#start_longitude').val(endPoint.lng)
                 }
             })
 
@@ -196,6 +215,8 @@
                 let modal = $(this)
                 modal.find('.modal-body #geojson_modal').val($('#geojson').val())
                 modal.find('.modal-body #coordinates_modal').val($('#coordinates').val())
+                modal.find('.modal-body #start_latitude_modal').val($('#start_latitude').val())
+                modal.find('.modal-body #start_longitude_modal').val($('#start_longitude').val())
             })
         })
     </script>

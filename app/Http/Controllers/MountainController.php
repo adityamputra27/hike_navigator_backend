@@ -232,6 +232,8 @@ class MountainController extends Controller
         $track->mountain_peak_id = $request->mountain_peak_id;
         $track->geojson = $request->geojson_modal;
         $track->coordinates = $request->coordinates_modal;
+        $track->start_latitude = $request->start_latitude_modal;
+        $track->start_longitude = $request->start_longitude_modal;
         $track->title = $request->title;
         $track->description = $request->description != '' ? $request->description : '-';
         $track->user_id = Auth::id();
@@ -251,6 +253,7 @@ class MountainController extends Controller
         if (empty($track)) {
             return redirect()->route('mountains.createTrack', [$mountainId, $peakId]);
         }
+        
         $mountainPeak = MountainPeak::with(['mountain', 'peak', 'tracks.waterfalls', 'tracks.rivers', 'tracks.posts', 'tracks.watersprings'])->where('id', $track->mountain_peak_id)->first();
 
         return view('mountains.edit-tracks', [

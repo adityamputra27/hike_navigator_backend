@@ -64,9 +64,12 @@ class ClimbingPlanController extends Controller
         $newClimbingPlan->status_finished = 'PROCESS';
         $newClimbingPlan->save();
 
+        $resultClimbingPlan = $this->getActivePerUser($newClimbingPlan->id);
+
         return response()->json([
             'status' => 400,
-            'message' => "successfully create new schedule"
+            'message' => "successfully create new schedule",
+            'data' => $resultClimbingPlan,
         ]);
     }
 
@@ -80,6 +83,23 @@ class ClimbingPlanController extends Controller
             'status' => 400,
             'message' => "successfully cancel schedule"
         ]);
+    }
+
+    public function getActivePerUser($climbingPlanId)
+    {
+        return ClimbingPlan::where('id', $climbingPlanId)
+                            ->with(['user', 'mountain.mountainImages', 'mountain.province', 
+                                'mountain.city', 'mountain.mountainPeaks.mountain', 
+                                'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                'mountain.mountainPeaks.tracks.marks', 
+                                'mountain.mountainPeaks.tracks.waterfalls', 
+                                'mountain.mountainPeaks.tracks.watersprings', 
+                                'mountain.mountainPeaks.tracks.rivers', 
+                                'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
+                                'mountain.mountainMarks', 'mountain.mountainWaterfalls',
+                                'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
+                            ->where('is_cancel', 0)
+                            ->where('status', 'ACTIVE')->first();
     }
 
     public function getActiveUser(Request $request, $userId)

@@ -19,15 +19,18 @@
                 <div>
                     <a href="{{ route('mountains.detailPeak', [$mountain->id, $peak->id]) }}" class="btn btn-danger"><i class="oi oi-chevron-left"></i> Back</a>
                     <button type="button" class="btn btn-secondary cancel"><i class="oi oi-reload"></i> Cancel</button>
-                    {{-- <button type="button" class="btn btn-danger detail" data-value="marks">Create Mark</button> --}}
+                    <button type="button" class="btn btn-danger detail" data-value="marks">Create Mark</button>
                     <button type="button" class="btn btn-warning detail" data-value="posts">Create Post</button>
                     <button type="button" class="btn btn-success detail" data-value="rivers">Create River</button>
                     <button type="button" class="btn btn-primary detail" data-value="waterfalls">Create Waterfall</button>
                     <button type="button" class="btn btn-info detail" data-value="water_springs">Create Water Spring</button>
-                    <a href="#" class="btn btn-secondary"><i class="oi oi-info"></i> Petunjuk Penggunaan</a>
                 </div>
             </div>
             <div class="card-body">
+                <div class="alert alert-info">
+                    <strong><i class="oi oi-info"></i> Perhatian!</strong><br>
+                    Harap klik tombol cancel jika ingin batal edit ketika salah satu <b>tombol disabled!</b>
+                </div>
                 <div id="map" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
@@ -137,7 +140,6 @@
 
             // get all track detail
             let tracks = JSON.parse(decodeURIComponent("{{ rawurlencode($track) }}"))
-            console.log(tracks)
             
             for (const waterfall of tracks.waterfalls) {
                 const el = document.createElement('div')
@@ -163,23 +165,29 @@
 
                 new mapboxgl.Marker(el).setLngLat({lng: post.longitude, lat: post.latitude}).addTo(map)
             }
+            for (const mark of tracks.marks) {
+                const el = document.createElement('div')
+                el.className = 'mark_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: mark.longitude, lat: mark.latitude}).addTo(map)
+            }
 
             // set marks
-
 
             // set mountain and peak selected
             let mountainLongitude = "{{ $mountain->longitude }}"
             let mountainLatitude = "{{ $mountain->latitude }}"
             if (mountainLongitude != '' && mountainLatitude != '') {
-                const mountainMarker = new mapboxgl.Marker({ color: 'green', scale: 1 })
-                    .setLngLat({lng: mountainLongitude, lat: mountainLatitude})
-                    .addTo(map)
-                
+                const el = document.createElement('div')
+                el.className = 'mountain_markers';
+                const mountainMarker =  new mapboxgl.Marker(el).setLngLat({lng: mountainLongitude, lat: mountainLatitude}).addTo(map)
                 const mountainPopup = new mapboxgl.Popup().setHTML(`
                                                                     <b>{{ $mountain->name }}</b> {{ $mountain->height }}
                                                                     <p class="mb-0">Lat: {{ $mountain->latitude }}</p>
                                                                     <p class="mb-0">Long: {{ $mountain->longitude }}</p>
                                                                 `)
+
+                                                                
                 mountainMarker.setPopup(mountainPopup)
                 mountainPopup.addTo(map)
             }
@@ -187,9 +195,9 @@
             let peakLongitude = "{{ $peak->longitude }}"
             let peakLatitude = "{{ $peak->latitude }}"
             if (peakLongitude != '' && peakLatitude != '') {
-                const peakMarker = new mapboxgl.Marker({ color: 'purple', scale: 1 })
-                    .setLngLat({lng: peakLongitude, lat: peakLatitude})
-                    .addTo(map)
+                const el = document.createElement('div')
+                el.className = 'mountain_markers';
+                const peakMarker =  new mapboxgl.Marker(el).setLngLat({lng: peakLongitude, lat: peakLatitude}).addTo(map)
 
                 const peakPopup = new mapboxgl.Popup().setHTML(`
                                                                 <b>{{ $peak->name }}</b> {{ $peak->height }}
