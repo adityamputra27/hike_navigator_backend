@@ -18,4 +18,14 @@ class ClimbingPlan extends Model
     {
         return $this->belongsTo(Mountain::class);
     }
+
+    public function mountainPeak()
+    {
+        return $this->belongsTo(MountainPeak::class);
+    }
+
+    public function track()
+    {
+        return $this->belongsTo(Track::class);
+    }
 }
