@@ -88,7 +88,7 @@ class ClimbingPlanController extends Controller
     public function getActivePerUser($climbingPlanId)
     {
         return ClimbingPlan::where('id', $climbingPlanId)
-                            ->with(['user', 'mountainPeak', 'track', 'mountain.mountainImages', 'mountain.province', 
+                            ->with(['user', 'mountainPeak.peak', 'track', 'mountain.mountainImages', 'mountain.province', 
                                 'mountain.city', 'mountain.mountainPeaks.mountain', 
                                 'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
                                 'mountain.mountainPeaks.tracks.marks', 
