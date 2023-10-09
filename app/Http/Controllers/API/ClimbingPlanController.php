@@ -96,6 +96,9 @@ class ClimbingPlanController extends Controller
                                 'mountain.mountainPeaks.tracks.watersprings', 
                                 'mountain.mountainPeaks.tracks.rivers', 
                                 'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
+                                'mountain.mountainTracks.marks', 'mountain.mountainTracks.waterfalls',
+                                'mountain.mountainTracks.watersprings', 'mountain.mountainTracks.rivers',
+                                'mountain.mountainTracks.posts',
                                 'mountain.mountainMarks', 'mountain.mountainWaterfalls',
                                 'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
                             ->where('is_cancel', 0)
