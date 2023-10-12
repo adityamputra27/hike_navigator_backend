@@ -158,8 +158,8 @@
                     <div class="pt-3">
                         <a href="#" class="pl-3 fs-smallest fw-bold text-muted">OTHER NAVIGATION </a> 
                         <ul class="list-unstyled">
+                            <li class=""><a href="/settings" style="font-weight: bold;"><span class="oi oi-cog"></span>Settings</a></li>
                             <li class=""><a href="#" style="font-weight: bold;"><span class="oi oi-pencil"></span>Edit Profile</a></li>
-                            <li class=""><a href="#" style="font-weight: bold;"><span class="oi oi-account-logout"></span>Logout</a></li>
                         </ul>
                     </div>
                     <div class="d-block d-md-none">

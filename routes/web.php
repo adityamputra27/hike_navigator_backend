@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     PeakController,
     UserController,
     ClimbingPlanController,
+    SettingController,
 };
 
 /*
@@ -68,3 +69,6 @@ Route::post('users/datatables/', [UserController::class, 'datatables'])->name('u
 Route::resource('users', UserController::class);
 
 Route::get('provinces/{id}', [LocationController::class, 'getCities'])->name('location.getCities');
+
+Route::get('settings', [SettingController::class, 'index'])->name('setting.index');
+Route::patch('settings/update', [SettingController::class, 'update'])->name('setting.update');
