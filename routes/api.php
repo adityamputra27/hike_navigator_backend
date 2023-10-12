@@ -38,4 +38,5 @@ Route::middleware('auth.api')->group(function () {
     Route::get('climbing-plans/getSavedUser/{userId}/', [ClimbingPlanController::class, 'getSavedUser']);
 
     Route::get('configuration/getActiveProvinces', [ConfigurationController::class, 'getActiveProvinces']);
+    Route::get('configuration/getSettings', [ConfigurationController::class, 'getSettings']);
 });

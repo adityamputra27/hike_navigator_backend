@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{
     Province,
     Mountain,
+    Setting,
 };
 
 class ConfigurationController extends Controller
@@ -24,6 +25,15 @@ class ConfigurationController extends Controller
             'status' => 200,
             'message' => 'success',
             'data' => $provinces
+        ]);
+    }
+
+    public function getSettings(Request $request)
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+            'data' => Setting::first()
         ]);
     }
 }
