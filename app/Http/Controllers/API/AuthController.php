@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -15,11 +16,14 @@ class AuthController extends Controller
 
         if (!empty($user) && Hash::check($request->password, $user->password)) {
             $token = $user->createToken('Personal Access Token')->plainTextToken;
+            $setting = Setting::first();
+
             return response()->json([
                 'status' => 200,
+                'message' => 'Login success!',
                 'token' => $token,
                 'user' => $user,
-                'message' => 'Login success!',
+                'setting' => $setting,
             ]);
         } else if (empty($user)) {
             return response()->json([
