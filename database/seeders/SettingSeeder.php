@@ -20,6 +20,7 @@ class SettingSeeder extends Seeder
         $setting->android_package = '-';
         $setting->ios_package = '-';
         $setting->address = 'Solo, Jawa Tengah, Indonesia';
+        $setting->save();
 
         $this->command->info('Mobile app setting berhasil diinsert');
     }

@@ -35,6 +35,22 @@
                         <input type="text" name="version" id="version" class="form-control" value="{{ !empty($setting) ? $setting->version : '' }}" required>
                     </div>
                     <div class="form-group">
+                        <label for="">Google Play Store (Link) : </label>
+                        <input type="text" name="android_link" id="android_link" class="form-control" value="{{ !empty($setting) ? $setting->android_link : '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">App Store (Link) : </label>
+                        <input type="text" name="ioslink" id="ioslink" class="form-control" value="{{ !empty($setting) ? $setting->ios_link : '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Android Package Name : </label>
+                        <input type="text" name="android_package" id="android_package" class="form-control" value="{{ !empty($setting) ? $setting->android_package : '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">IOS Package Name : </label>
+                        <input type="text" name="ios_package" id="ios_package" class="form-control" value="{{ !empty($setting) ? $setting->ios_package : '' }}" required>
+                    </div>
+                    <div class="form-group">
                         <label for="">Address</label>
                         <textarea name="address" id="address" class="form-control">{{ !empty($setting) ? $setting->address : '' }}</textarea>
                     </div>
