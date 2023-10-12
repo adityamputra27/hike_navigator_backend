@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="alert alert-info">
                         <strong><i class="oi oi-info"></i> Perhatian!</strong><br>
-                        Jika <b>app version</b> diubah maka akan muncul notifikasi update di mobile
+                        Jika <b>app version</b> diubah maka akan muncul notifikasi update saat login di mobile!
                     </div>
                     @csrf
                     @method('PATCH')
@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">App Store (Link) : </label>
-                        <input type="text" name="ioslink" id="ioslink" class="form-control" value="{{ !empty($setting) ? $setting->ios_link : '' }}" required>
+                        <input type="text" name="ios_link" id="ios_link" class="form-control" value="{{ !empty($setting) ? $setting->ios_link : '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="">Android Package Name : </label>

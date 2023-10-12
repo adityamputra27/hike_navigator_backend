@@ -22,6 +22,10 @@ class SettingController extends Controller
         $setting = Setting::first();
         $setting->name = $request->name;
         $setting->version = $request->version;
+        $setting->android_link = $request->android_link;
+        $setting->ios_link = $request->ios_link;
+        $setting->android_package = $request->android_package;
+        $setting->ios_package = $request->ios_package;
         $setting->address = $request->address;
         
         if ($setting->save()) {
