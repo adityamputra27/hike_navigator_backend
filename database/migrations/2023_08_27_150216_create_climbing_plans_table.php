@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('climbing_plans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mountain_id');
-            $table->datetime('schedule_date');
+            $table->datetime('schedule_date')->nullable();
             $table->enum('is_map_download', ['SUCCESS', 'FAILED']);
             $table->unsignedBigInteger('user_id');
             $table->enum('status', ['ACTIVE', 'INACTIVE']);
