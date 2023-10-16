@@ -118,7 +118,7 @@ class ClimbingPlanController extends Controller
         }
 
         if ($provinceId) {
-            $climbingPlans = ClimbingPlan::with(['user', 'mountain.mountainImages', 'mountain.province', 
+            $climbingPlans = ClimbingPlan::with(['user', 'track', 'mountainPeak.peak', 'mountain.mountainImages', 'mountain.province', 
                                                 'mountain.city', 'mountain.mountainPeaks.mountain', 
                                                 'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
                                                 'mountain.mountainPeaks.tracks.marks', 
