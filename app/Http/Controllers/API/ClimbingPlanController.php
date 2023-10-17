@@ -85,6 +85,18 @@ class ClimbingPlanController extends Controller
         ]);
     }
 
+    public function clear(Request $request, $userId)
+    {
+        $climbingPlans = ClimbingPlan::where('user_id', $userId)->update([
+            'is_cancel' => 1,
+        ]);
+        
+        return response()->json([
+            'status' => 400,
+            'message' => "Successfully clear data"
+        ]);
+    }
+
     public function getActivePerUser($climbingPlanId)
     {
         return ClimbingPlan::where('id', $climbingPlanId)
