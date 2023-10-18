@@ -87,6 +87,14 @@ class ClimbingPlanController extends Controller
 
     public function clear(Request $request, $userId)
     {
+        $climbingPlans = ClimbingPlan::where('user_id', $userId)->get();
+        if (count($climbingPlans) == 0) {
+            return response()->json([
+                'status' => 500,
+                'message' => "Your data is empty!!"
+            ]);
+        }
+        
         $climbingPlans = ClimbingPlan::where('user_id', $userId)->update([
             'is_cancel' => 1,
         ]);
