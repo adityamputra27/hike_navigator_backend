@@ -19,7 +19,7 @@ class ConfigurationController extends Controller
         //     $provinces = Province::orderBy('name', 'ASC')->whereIn('id', $provinceExists)->get();
         // } else {
         // }
-        $provinces = Province::orderBy('name', 'ASC')->limit(5)->get();
+        $provinces = Province::orderBy('name', 'ASC')->limit(10)->get();
 
         return response()->json([
             'status' => 200,
