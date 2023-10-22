@@ -14,12 +14,12 @@ class ConfigurationController extends Controller
 {
     public function getActiveProvinces(Request $request)
     {
-        // $provinceExists = Mountain::orderBy('name', 'ASC')->groupBy('province_id')->pluck('province_id');
-        // if (!empty($provinceExists)) {
-        //     $provinces = Province::orderBy('name', 'ASC')->whereIn('id', $provinceExists)->get();
-        // } else {
-        // }
-        $provinces = Province::orderBy('name', 'ASC')->limit(10)->get();
+        $provinceExists = Mountain::orderBy('name', 'ASC')->groupBy('province_id')->pluck('province_id');
+        if (!empty($provinceExists)) {
+            $provinces = Province::orderBy('name', 'ASC')->whereIn('id', $provinceExists)->get();
+        } else {
+            $provinces = Province::orderBy('name', 'ASC')->whereIn('id', [0])->get();
+        }
 
         return response()->json([
             'status' => 200,
