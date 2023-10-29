@@ -73,6 +73,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group contact_number_form">
+                        <label for="">Contact Number :</label>
+                        <input type="text" id="contact_number" name="contact_number" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="">Description <small>(optional)</small></label>
                         <textarea name="description" id="description" class="form-control"></textarea>
@@ -226,6 +230,7 @@
             })
 
             localStorage.removeItem('value')
+            $('.contact_number_form').hide()
             map.on('click', function (e) {
                 let value = localStorage.getItem('value') || ''
                 if (value == '') return
@@ -233,6 +238,10 @@
                 $('#value').val(value.toUpperCase())
                 $('#latitude').val(e.lngLat.lat)
                 $('#longitude').val(e.lngLat.lng)
+
+                if (value == 'posts') {
+                    $('.contact_number_form').show()
+                }
             })
 
             $('.cancel').on('click', function () {
