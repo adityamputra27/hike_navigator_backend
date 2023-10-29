@@ -19,7 +19,7 @@ class ClimbingPlanController extends Controller
         if (!$mountain) {
             return response()->json([
                 'status' => 404,
-                'message' => "mountain id doesn't exist"
+                'message' => "Muntain id doesn't exist"
             ]);
         }
 
@@ -27,7 +27,7 @@ class ClimbingPlanController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => 404,
-                'message' => "user id doesn't exist"
+                'message' => "User id doesn't exist"
             ]);
         }
 
@@ -41,7 +41,7 @@ class ClimbingPlanController extends Controller
         if (count($climbingPlanUser) > 0) {
             return response()->json([
                 'status' => 500,
-                'message' => "can't create schedule with same destination or same time!"
+                'message' => "Can't create schedule with same destination or same time!"
             ]);
         }
 
@@ -68,7 +68,7 @@ class ClimbingPlanController extends Controller
 
         return response()->json([
             'status' => 400,
-            'message' => "successfully create new schedule",
+            'message' => "Successfully create new schedule!",
             'data' => $resultClimbingPlan,
         ]);
     }
@@ -81,7 +81,7 @@ class ClimbingPlanController extends Controller
 
         return response()->json([
             'status' => 400,
-            'message' => "successfully cancel schedule"
+            'message' => "Successfully cancel schedule!"
         ]);
     }
 
@@ -101,7 +101,7 @@ class ClimbingPlanController extends Controller
         
         return response()->json([
             'status' => 400,
-            'message' => "Successfully clear data"
+            'message' => "Successfully clear data!"
         ]);
     }
 
@@ -133,7 +133,7 @@ class ClimbingPlanController extends Controller
         if (empty($userId)) {
             return response()->json([
                 'status' => 500,
-                'message' => 'Params user id null'
+                'message' => 'Params user id null!'
             ]);
         }
 
