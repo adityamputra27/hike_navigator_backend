@@ -34,6 +34,7 @@ Route::middleware('auth.api')->group(function () {
 
     Route::post('climbing-plans/create/', [ClimbingPlanController::class, 'create']);
     Route::post('climbing-plans/{id}/cancel/', [ClimbingPlanController::class, 'cancel']);
+    Route::post('climbing-plans/{id}/finish/', [ClimbingPlanController::class, 'finish']);
     Route::post('climbing-plans/{id}/clear/', [ClimbingPlanController::class, 'clear']);
     Route::get('climbing-plans/getActiveUser/{userId}/', [ClimbingPlanController::class, 'getActiveUser']);
     Route::get('climbing-plans/getSavedUser/{userId}/', [ClimbingPlanController::class, 'getSavedUser']);
