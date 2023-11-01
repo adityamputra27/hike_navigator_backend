@@ -85,6 +85,18 @@ class ClimbingPlanController extends Controller
         ]);
     }
 
+    public function finish(Request $request, $climbingPlanId)
+    {
+        $climbingPlan = ClimbingPlan::findOrFail($climbingPlanId);
+        $climbingPlan->status_finished = 'FINISH';
+        $climbingPlan->save();
+
+        return response()->json([
+            'status' => 400,
+            'message' => "Congrats! Your journey is finish!"
+        ]);
+    }
+
     public function clear(Request $request, $userId)
     {
         $climbingPlans = ClimbingPlan::where('user_id', $userId)->get();
