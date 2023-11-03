@@ -49,7 +49,7 @@ class AuthController extends Controller
                 ]);
             } else {
                 $user = new User;
-                $user->username = '';
+                $user->username = null;
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->role = 'HIKER';
