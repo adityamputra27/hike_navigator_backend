@@ -52,7 +52,7 @@ class AuthController extends Controller
             $newUser->password = '';
             $newUser->address = '';
             $newUser->phone = '';
-            $newUser->register_type = 'FIREBASE';
+            $newUser->register_type = $request->register_type;
             $newUser->save();
 
             $token = $newUser->createToken('Personal Access Token')->plainTextToken;
