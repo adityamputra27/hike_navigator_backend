@@ -56,6 +56,9 @@
         .mark_markers {
             background-image: url("{{ asset('images/marks.png') }}");
         }
+        .cross_road_markers {
+            background-image: url("{{ asset('images/cross_road_marker.png') }}");
+        }
         .mountain_markers {
             background-size: cover;
             width: 50px;
@@ -66,7 +69,8 @@
         .river_markers,
         .waterspring_markers,
         .post_markers,
-        .mark_markers {
+        .mark_markers,
+        .cross_road_markers {
             background-size: cover;
             width: 35px;
             height: 35px;

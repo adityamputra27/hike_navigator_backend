@@ -38,6 +38,47 @@ class AuthController extends Controller
         }
     }
 
+    public function authenticationByGoogle(Request $request)
+    {
+        $user = User::where('email', $request->email)->where('role', 'HIKER')->first();
+        if (!empty($user)) {
+            $newUser = new User;
+            $newUser->username = 'user'.date('YmdHis');
+            $newUser->name = $request->name;
+            $newUser->email = $request->email;
+            $newUser->role = 'HIKER';
+            $newUser->status = 'ACTIVE';
+            $newUser->avatar = 'default.png';
+            $newUser->password = '';
+            $newUser->address = '';
+            $newUser->phone = '';
+            $newUser->register_type = 'FIREBASE';
+            $newUser->save();
+
+            $token = $newUser->createToken('Personal Access Token')->plainTextToken;
+            $setting = Setting::first();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login success!',
+                'token' => $token,
+                'user' => $user,
+                'setting' => $setting,
+            ]);
+        } else {
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
+            $setting = Setting::first();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login success!',
+                'token' => $token,
+                'user' => $user,
+                'setting' => $setting,
+            ]);
+        }
+    }
+
     public function register(Request $request)
     {
         $exists = User::where('email', $request->email)->first();

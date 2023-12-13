@@ -38,12 +38,14 @@ class UserController extends Controller
                 }
                 return $html;
             })
-            ->addColumn('register_type', function ($row) {
+            ->editColumn('register_type', function ($row) {
                 $html = '';
-                if ($row->role == 'ADMIN') {
+                if ($row->register_type == 'WEB') {
                     $html .= '<span class="badge badge-info">WEB</span>';
-                } else {
+                } else if ($row->register_type == 'ANDROID') {
                     $html .= '<span class="badge badge-danger">ANDROID</span>';
+                } else {
+                    $html .= '<span class="badge badge-warning">FIREBASE</span>';
                 }
                 return $html;
             })

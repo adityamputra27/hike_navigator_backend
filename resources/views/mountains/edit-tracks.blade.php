@@ -20,6 +20,7 @@
                     <a href="{{ route('mountains.detailPeak', [$mountain->id, $peak->id]) }}" class="btn btn-danger"><i class="oi oi-chevron-left"></i> Back</a>
                     <button type="button" class="btn btn-secondary cancel"><i class="oi oi-reload"></i> Cancel</button>
                     <button type="button" class="btn btn-danger detail" data-value="marks">Create Mark</button>
+                    <button type="button" class="btn btn-info detail" data-value="cross_roads">Create Cross Road</button>
                     <button type="button" class="btn btn-warning detail" data-value="posts">Create Post</button>
                     <button type="button" class="btn btn-success detail" data-value="rivers">Create River</button>
                     <button type="button" class="btn btn-primary detail" data-value="waterfalls">Create Waterfall</button>
@@ -215,6 +216,12 @@
                 el.className = 'mark_markers';
 
                 new mapboxgl.Marker(el).setLngLat({lng: mark.longitude, lat: mark.latitude}).addTo(map)
+            }
+            for (const cross_road of tracks.cross_roads) {
+                const el = document.createElement('div')
+                el.className = 'cross_road_markers';
+
+                new mapboxgl.Marker(el).setLngLat({lng: cross_road.longitude, lat: cross_road.latitude}).addTo(map)
             }
 
             // set marks

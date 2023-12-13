@@ -33,4 +33,9 @@ class Track extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function crossRoads()
+    {
+        return $this->hasMany(CrossRoad::class);
+    }
 }
