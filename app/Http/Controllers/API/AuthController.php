@@ -99,6 +99,7 @@ class AuthController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->address = '';
                 $user->phone = '';
+                $user->register_type = $request->register_type;
                 $user->save();
 
                 return response()->json([
