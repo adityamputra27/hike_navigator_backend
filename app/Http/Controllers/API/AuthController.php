@@ -41,7 +41,7 @@ class AuthController extends Controller
     public function oauth(Request $request)
     {
         $user = User::where('email', $request->email)->where('role', 'HIKER')->first();
-        if (!empty($user)) {
+        if (empty($user)) {
             $newUser = new User;
             $newUser->username = 'user'.date('YmdHis');
             $newUser->name = $request->name;
