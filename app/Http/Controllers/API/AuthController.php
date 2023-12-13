@@ -38,7 +38,7 @@ class AuthController extends Controller
         }
     }
 
-    public function authenticationByGoogle(Request $request)
+    public function oauth(Request $request)
     {
         $user = User::where('email', $request->email)->where('role', 'HIKER')->first();
         if (!empty($user)) {

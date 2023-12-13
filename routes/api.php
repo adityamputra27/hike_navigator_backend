@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('login', [AuthController::class, 'login']);
+Route::post('oauth', [AuthController::class, 'oauth']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forgot-password/check', [AuthController::class, 'check']);
 Route::post('forgot-password/store', [AuthController::class, 'forgotPassword']);
