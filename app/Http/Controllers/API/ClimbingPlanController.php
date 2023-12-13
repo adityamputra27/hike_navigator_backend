@@ -127,10 +127,15 @@ class ClimbingPlanController extends Controller
                                 'mountain.mountainPeaks.tracks.waterfalls', 
                                 'mountain.mountainPeaks.tracks.watersprings', 
                                 'mountain.mountainPeaks.tracks.rivers', 
-                                'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
-                                'mountain.mountainTracks.marks', 'mountain.mountainTracks.waterfalls',
-                                'mountain.mountainTracks.watersprings', 'mountain.mountainTracks.rivers',
+                                'mountain.mountainPeaks.tracks.posts', 
+                                'mountain.mountainPeaks.tracks.crossRoads', 
+                                'mountain.mountainTracks', 
+                                'mountain.mountainTracks.marks', 
+                                'mountain.mountainTracks.waterfalls',
+                                'mountain.mountainTracks.watersprings', 
+                                'mountain.mountainTracks.rivers',
                                 'mountain.mountainTracks.posts',
+                                'mountain.mountainTracks.crossRoads',
                                 'mountain.mountainMarks', 'mountain.mountainWaterfalls',
                                 'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
                             ->where('is_cancel', 0)
@@ -152,14 +157,21 @@ class ClimbingPlanController extends Controller
         if ($provinceId) {
             $climbingPlans = ClimbingPlan::with(['user', 'track', 'mountainPeak.peak', 'mountain.mountainImages', 'mountain.province', 
                                                 'mountain.city', 'mountain.mountainPeaks.mountain', 
-                                                'mountain.mountainPeaks.peak', 'mountain.mountainPeaks.tracks',
+                                                'mountain.mountainPeaks.peak', 
+                                                'mountain.mountainPeaks.tracks',
                                                 'mountain.mountainPeaks.tracks.marks', 
                                                 'mountain.mountainPeaks.tracks.waterfalls', 
                                                 'mountain.mountainPeaks.tracks.watersprings', 
                                                 'mountain.mountainPeaks.tracks.rivers', 
-                                                'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
-                                                'mountain.mountainMarks', 'mountain.mountainWaterfalls',
-                                                'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
+                                                'mountain.mountainPeaks.tracks.posts', 
+                                                'mountain.mountainPeaks.tracks.crossRoads', 
+                                                'mountain.mountainTracks', 
+                                                'mountain.mountainMarks', 
+                                                'mountain.mountainWaterfalls',
+                                                'mountain.mountainWatersprings', 
+                                                'mountain.mountainRivers', 
+                                                'mountain.mountainCrossRoads', 
+                                                'mountain.mountainPosts'])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -174,9 +186,15 @@ class ClimbingPlanController extends Controller
                                         'mountain.mountainPeaks.tracks.waterfalls', 
                                         'mountain.mountainPeaks.tracks.watersprings', 
                                         'mountain.mountainPeaks.tracks.rivers', 
-                                        'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
-                                        'mountain.mountainMarks', 'mountain.mountainWaterfalls',
-                                        'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
+                                        'mountain.mountainPeaks.tracks.posts', 
+                                        'mountain.mountainPeaks.tracks.crossRoads', 
+                                        'mountain.mountainTracks', 
+                                        'mountain.mountainMarks', 
+                                        'mountain.mountainWaterfalls',
+                                        'mountain.mountainWatersprings', 
+                                        'mountain.mountainRivers', 
+                                        'mountain.mountainCrossRoads', 
+                                        'mountain.mountainPosts'])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })
@@ -211,9 +229,15 @@ class ClimbingPlanController extends Controller
                                         'mountain.mountainPeaks.tracks.waterfalls', 
                                         'mountain.mountainPeaks.tracks.watersprings', 
                                         'mountain.mountainPeaks.tracks.rivers', 
-                                        'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
-                                        'mountain.mountainMarks', 'mountain.mountainWaterfalls',
-                                        'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
+                                        'mountain.mountainPeaks.tracks.posts', 
+                                        'mountain.mountainPeaks.tracks.crossRoads', 
+                                        'mountain.mountainTracks', 
+                                        'mountain.mountainMarks', 
+                                        'mountain.mountainWaterfalls',
+                                        'mountain.mountainWatersprings', 
+                                        'mountain.mountainRivers', 
+                                        'mountain.mountainCrossRoads', 
+                                        'mountain.mountainPosts'])
                                     ->whereHas('mountain', function ($query) use ($provinceId, $keyword) {
                                         $query->where('province_id', $provinceId);
                                         $query->where('name', 'LIKE', "%$keyword%");
@@ -228,9 +252,15 @@ class ClimbingPlanController extends Controller
                                         'mountain.mountainPeaks.tracks.waterfalls', 
                                         'mountain.mountainPeaks.tracks.watersprings', 
                                         'mountain.mountainPeaks.tracks.rivers', 
-                                        'mountain.mountainPeaks.tracks.posts', 'mountain.mountainTracks', 
-                                        'mountain.mountainMarks', 'mountain.mountainWaterfalls',
-                                        'mountain.mountainWatersprings', 'mountain.mountainRivers', 'mountain.mountainPosts'])
+                                        'mountain.mountainPeaks.tracks.posts',
+                                        'mountain.mountainPeaks.tracks.crossRoads', 
+                                        'mountain.mountainTracks', 
+                                        'mountain.mountainMarks', 
+                                        'mountain.mountainWaterfalls',
+                                        'mountain.mountainWatersprings', 
+                                        'mountain.mountainRivers', 
+                                        'mountain.mountainCrossRoads', 
+                                        'mountain.mountainPosts'])
                                     ->whereHas('mountain', function ($query) use ($keyword) {
                                         $query->where('name', 'LIKE', "%$keyword%");
                                     })

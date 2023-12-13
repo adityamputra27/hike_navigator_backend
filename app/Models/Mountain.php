@@ -58,4 +58,9 @@ class Mountain extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function mountainCrossRoads()
+    {
+        return $this->hasMany(CrossRoad::class);
+    }
 }

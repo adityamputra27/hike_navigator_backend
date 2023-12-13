@@ -22,8 +22,8 @@ class MountainController extends Controller
                 'mountainPeaks.peak', 'mountainPeaks.tracks',
                 'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
                 'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
-                'mountainPeaks.tracks.posts', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
-                'mountainWatersprings', 'mountainRivers', 'mountainPosts'
+                'mountainPeaks.tracks.posts', 'mountainPeaks.tracks.crossRoads', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
+                'mountainWatersprings', 'mountainRivers', 'mountainPosts', 'mountainCrossRoads'
             ])
             ->whereHas('mountainPeaks.tracks', function ($query) {
                 $query->select('id');
@@ -37,7 +37,7 @@ class MountainController extends Controller
                 'mountainPeaks.peak', 'mountainPeaks.tracks',
                 'mountainPeaks.tracks.marks', 'mountainPeaks.tracks.waterfalls', 
                 'mountainPeaks.tracks.watersprings', 'mountainPeaks.tracks.rivers', 
-                'mountainPeaks.tracks.posts', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
+                'mountainPeaks.tracks.posts', 'mountainPeaks.tracks.crossRoads', 'mountainTracks', 'mountainMarks', 'mountainWaterfalls',
                 'mountainWatersprings', 'mountainRivers', 'mountainPosts'
             ])
             ->where('name', 'LIKE', "%$keyword%")
