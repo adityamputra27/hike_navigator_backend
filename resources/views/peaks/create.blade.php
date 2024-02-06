@@ -25,24 +25,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Hiking Time</label>
-                                <input type="number" class="form-control form-control-sm" required name="time" id="time" placeholder="0 hours">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">Status</label>
-                                <div>
-                                    <input type="radio" name="status" id="active" value="ACTIVE" required>
-                                    <label for="active">ACTIVE</label>
-        
-                                    <input type="radio" name="status" id="inactive" value="INACTIVE" required>
-                                    <label for="inactive">INACTIVE</label>
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <div>
+                            <input type="radio" name="status" id="active" value="ACTIVE" required>
+                            <label for="active">ACTIVE</label>
+
+                            <input type="radio" name="status" id="inactive" value="INACTIVE" required>
+                            <label for="inactive">INACTIVE</label>
                         </div>
                     </div>
                     <div class="form-group">

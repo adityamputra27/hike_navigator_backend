@@ -26,7 +26,6 @@
                             <th>No</th>
                             <th>Name</th>
                             <th>Height</th>
-                            <th>Hiking Time</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
                             <th>Status</th>
@@ -72,10 +71,6 @@
                     {
                         data: 'height',
                         name: 'height'
-                    },
-                    {
-                        data: 'time',
-                        name: 'time'
                     },
                     {
                         data: 'latitude',
