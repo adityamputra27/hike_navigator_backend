@@ -30,6 +30,9 @@ class PeakController extends Controller
                 }
                 return $html;
             })
+            ->editColumn('time', function ($row) {
+                return $row->time . ' hours';
+            })
             ->addColumn('action', function ($row) {
                 $button = '<div class="btn-group">';
                 $button .= '<a href="'.route('peaks.edit', $row->id).'" class="btn btn-warning"><i class="fa fa-edit"></i>&nbsp;Edit</a>';
@@ -64,6 +67,7 @@ class PeakController extends Controller
         $peak = new Peak;
         $peak->name = $request->name;
         $peak->height = $request->height;
+        $peak->time = $request->time;
         $peak->latitude = $request->latitude;
         $peak->longitude = $request->longitude;
         $peak->status = $request->status;
@@ -99,6 +103,7 @@ class PeakController extends Controller
     {
         $peak = Peak::where('id', $id)->first();
         $peak->name = $request->name;
+        $peak->time = $request->time;
         $peak->height = $request->height;
         $peak->latitude = $request->latitude;
         $peak->longitude = $request->longitude;
