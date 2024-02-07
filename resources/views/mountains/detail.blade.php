@@ -115,6 +115,7 @@
                         <tr>
                             <th>No</th>
                             <th>Title</th>
+                            <th>Time</th>
                             <th>Geojson</th>
                             <th width="175">Detail</th>
                             <th>Status</th>
@@ -157,6 +158,10 @@
                     {
                         data: 'title',
                         name: 'title'
+                    },
+                    {
+                        data: 'time',
+                        name: 'time'
                     },
                     {
                         data: 'geojson',

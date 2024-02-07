@@ -44,6 +44,10 @@
                         <input type="text" name="title" id="title" class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <label for="">Hiking Time : </label>
+                        <input type="number" name="time" id="time" class="form-control" placeholder="0 hours" required>
+                    </div>
+                    <div class="form-group">
                         <label for="">Geojson :</label>
                         <input type="text" name="geojson_modal" readonly id="geojson_modal" class="form-control">
                     </div>

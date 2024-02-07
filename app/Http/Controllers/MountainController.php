@@ -69,6 +69,9 @@ class MountainController extends Controller
         $tracks = Track::with(['waterfalls', 'watersprings', 'rivers', 'posts'])->where('mountain_peak_id', $request->mountain_peak_id);
         return DataTables::of($tracks)
                 ->addIndexColumn()
+                ->editColumn('time', function ($row) {
+                    return $row->time . ' hours';
+                })
                 ->editColumn('geojson', function ($row) {
                     return Str::limit(strip_tags($row->geojson), 100);
                 })
