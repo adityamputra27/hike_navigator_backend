@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Hiking Time : </label>
-                        <input type="number" name="time" id="time" class="form-control" placeholder="0 hours" required>
+                        <input type="number" name="time" id="time" class="form-control" placeholder="0" required>
                     </div>
                     <div class="form-group">
                         <label for="">Geojson :</label>
