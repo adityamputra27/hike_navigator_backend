@@ -83,7 +83,6 @@
 @section('scripts')
     <script>
         $(function () {
-            $('#saveTrack').hide()
             mapboxgl.accessToken = 'pk.eyJ1IjoiaGlrZW5hdmlnYXRvcm5ldyIsImEiOiJjbGxoZXRsdnoxOW5wM2ZwamZ2eTBtMWV1In0.jYkxsonNQIn_GsbJorNkEw';
             let map = new mapboxgl.Map({
                 container: 'map',
@@ -184,81 +183,164 @@
             }
             // end
 
+            const draw = new MapboxDraw({
+                displayControlsDefault: false,
+                controls: {
+                    trash: false,
+                    polygon: false,
+                    line_string: true,
+                    point: true,
+                },
+                modes: Object.assign({}, MapboxDraw.modes),
+                defaultMode: 'draw_polygon',
+                styles: [
+                    {
+                        'id': 'gl-draw-line',
+                        'type': 'line',
+                        'filter': ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+                        'layout': {
+                            'line-cap': 'round',
+                            'line-join': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#FFF', // Warna garis putih
+                            'line-dasharray': [2, 2],
+                            'line-width': 2
+                        }
+                    },
+                    // Ganti warna garis seleksi menjadi putih
+                    {
+                        'id': 'gl-draw-line-static',
+                        'type': 'line',
+                        'filter': ['all', ['==', '$type', 'LineString'], ['==', 'mode', 'static']],
+                        'layout': {
+                            'line-cap': 'round',
+                            'line-join': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#FFF', // Warna garis putih
+                            'line-width': 3
+                        }
+                    },
+                    {
+                        'id': 'gl-draw-polygon-and-line-vertex-inactive',
+                        'type': 'circle',
+                        'filter': ['all', ['==', 'meta', 'vertex'], ['!=', 'active', 'true']],
+                        'paint': {
+                            'circle-radius': 5,
+                            'circle-color': '#FFF' // Warna titik putih
+                        }
+                    },
+                    {
+                        'id': 'gl-draw-polygon-and-line-vertex-active',
+                        'type': 'circle',
+                        'filter': ['all', ['==', 'meta', 'vertex'], ['==', 'active', 'true']],
+                        'paint': {
+                            'circle-radius': 7,
+                            'circle-color': '#000' // Warna titik putih
+                        }
+                    }
+                ]
+            });
+
+            map.addControl(draw, 'top-left');
+            draw.changeMode('draw_line_string');
+
             let startPoint = null
             let endPoint = null
-            let route = null
             let pointCount = 0
-            let coordinates = []
+            let mapClickable = false
+            // let route = null
+            // let coordinates = []
 
+            // map.on('click', function (e) {
+            //     if (!startPoint) {
+            //         startPoint = e.lngLat
+            //         new mapboxgl.Marker({ color: 'red', scale: 0.75 })
+            //             .setLngLat(startPoint)
+            //             .addTo(map)
+            //         pointCount++
+            //     } else {
+            //         endPoint = e.lngLat
+            //         new mapboxgl.Marker({ color: 'blue', scale: 0.75 })
+            //             .setLngLat(endPoint)
+            //             .addTo(map)
+            //         pointCount++
+
+            //         if (route == null) {
+            //             route = {
+            //                 type: 'FeatureCollection',
+            //                 features: [],
+            //             }
+            //             map.addSource('route', {
+            //                 type: 'geojson',
+            //                 data: route
+            //             })
+            //             map.addLayer({
+            //                 id: 'route',
+            //                 type: 'line',
+            //                 source: 'route',
+            //                 layout: {
+            //                     'line-join': 'round',
+            //                     'line-cap': 'round',
+            //                 },
+            //                 paint: {
+            //                     'line-color': 'red',
+            //                     'line-width': 3,
+            //                     'line-dasharray': [2, 2]
+            //                 },
+            //             })
+            //         }
+                    
+            //         route.features.push({
+            //             type: 'Feature',
+            //             properties: {},
+            //             geometry: {
+            //                 type: 'LineString',
+            //                 coordinates: [[startPoint.lng, startPoint.lat], [endPoint.lng, endPoint.lat]],
+            //             },
+            //         },)
+
+            //         map.getSource('route').setData(route)
+            //         startPoint = endPoint
+
+            //         coordinates.push(
+            //             [startPoint.lng, startPoint.lat], [endPoint.lng, endPoint.lat]
+            //         )
+            //     }
+
+            //     if (pointCount >= 2) {
+            //         $('#saveTrack').show()
+            //         $('#geojson').val(JSON.stringify(route))
+            //         $('#coordinates').val(JSON.stringify(coordinates))
+            //         $('#start_latitude').val(endPoint.lat)
+            //         $('#start_longitude').val(endPoint.lng)
+            //     }
+            // })
+
+            $('#saveTrack').hide()
             map.on('click', function (e) {
                 if (!startPoint) {
                     startPoint = e.lngLat
-                    new mapboxgl.Marker({ color: 'red', scale: 0.75 })
-                        .setLngLat(startPoint)
-                        .addTo(map)
                     pointCount++
-                } else {
-                    endPoint = e.lngLat
-                    new mapboxgl.Marker({ color: 'blue', scale: 0.75 })
-                        .setLngLat(endPoint)
-                        .addTo(map)
-                    pointCount++
-
-                    if (route == null) {
-                        route = {
-                            type: 'FeatureCollection',
-                            features: [],
-                        }
-                        map.addSource('route', {
-                            type: 'geojson',
-                            data: route
-                        })
-                        map.addLayer({
-                            id: 'route',
-                            type: 'line',
-                            source: 'route',
-                            layout: {
-                                'line-join': 'round',
-                                'line-cap': 'round',
-                            },
-                            paint: {
-                                'line-color': 'red',
-                                'line-width': 3,
-                                'line-dasharray': [2, 2]
-                            },
-                        })
-                    }
-                    
-                    route.features.push({
-                        type: 'Feature',
-                        properties: {},
-                        geometry: {
-                            type: 'LineString',
-                            coordinates: [[startPoint.lng, startPoint.lat], [endPoint.lng, endPoint.lat]],
-                        },
-                    },)
-
-                    map.getSource('route').setData(route)
-                    startPoint = endPoint
-
-                    coordinates.push(
-                        [startPoint.lng, startPoint.lat], [endPoint.lng, endPoint.lat]
-                    )
                 }
 
-                if (pointCount >= 2) {
+                if (pointCount > 0) {
                     $('#saveTrack').show()
-                    $('#geojson').val(JSON.stringify(route))
-                    $('#coordinates').val(JSON.stringify(coordinates))
-                    $('#start_latitude').val(endPoint.lat)
-                    $('#start_longitude').val(endPoint.lng)
+                    $('#start_latitude').val(startPoint.lat)
+                    $('#start_longitude').val(startPoint.lng)
                 }
             })
 
             $('#trackModal').on('show.bs.modal', function (e) {
                 let modal = $(this)
-                modal.find('.modal-body #geojson_modal').val($('#geojson').val())
-                modal.find('.modal-body #coordinates_modal').val($('#coordinates').val())
+                let data = draw.getAll()
+                let coordinatesData = data.features[0].geometry.coordinates
+                let geojsonString = JSON.stringify(data)
+                let coordinatesString = JSON.stringify(coordinatesData)
+
+                modal.find('.modal-body #geojson_modal').val(geojsonString)
+                modal.find('.modal-body #coordinates_modal').val(coordinatesString)
                 modal.find('.modal-body #start_latitude_modal').val($('#start_latitude').val())
                 modal.find('.modal-body #start_longitude_modal').val($('#start_longitude').val())
             })
