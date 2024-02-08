@@ -15,11 +15,11 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header bg-white pb-3 d-flex justify-content-between align-items-center">
-                <button class="btn btn-primary" id="saveTrack" data-toggle="modal" data-target="#trackModal" type="button"><i class="oi oi-circle-check"></i> Save Track</button>
+                <button class="btn btn-primary" id="saveTrack" data-toggle="modal" data-target="#trackModal" type="button"><i class="oi oi-circle-check"></i> Update Track</button>
                 <input type="hidden" id="geojson">
                 <input type="hidden" id="coordinates">
-                <input type="hidden" name="start_latitude" id="start_latitude">
-                <input type="hidden" name="start_longitude" id="start_longitude">
+                <input type="hidden" name="start_latitude" id="start_latitude" value="{{ $track->start_latitude }}">
+                <input type="hidden" name="start_longitude" id="start_longitude" value="{{ $track->start_longitude }}">
                 <div>
                     <a href="{{ route('mountains.detailPeak', [$mountain->id, $peak->id]) }}" class="btn btn-danger"><i class="oi oi-chevron-left"></i> Back</a>
                     <button type="button" class="btn btn-secondary cancel"><i class="oi oi-reload"></i> Cancel</button>
@@ -52,6 +52,7 @@
             </div>
             <form action="{{ route('mountains.updateSingleTrack', [$mountain->id, $peak->id, $track->id]) }}" id="trackForm" method="POST">
                 @csrf
+                @method('PATCH')
                 <div class="modal-body">
                     <input type="hidden" name="mountain_peak_id" id="mountain_peak_id" value="{{ $mountainPeak->id }}">
                     <div class="form-group">
@@ -400,7 +401,6 @@
             let pointCount = 0
             let mapClickable = false
 
-            $('#saveTrack').hide()
             map.on('click', function (e) {
 
                 let drawMode = draw.getMode()

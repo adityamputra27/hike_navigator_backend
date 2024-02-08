@@ -238,6 +238,7 @@ class MountainController extends Controller
         $track->start_latitude = $request->start_latitude_modal;
         $track->start_longitude = $request->start_longitude_modal;
         $track->title = $request->title;
+        $track->time = $request->time;
         $track->description = $request->description != '' ? $request->description : '-';
         $track->user_id = Auth::id();
         $track->status = 'ACTIVE';
@@ -265,6 +266,22 @@ class MountainController extends Controller
             'peak' => $mountainPeak->peak,
             'track' => $track,
         ]);
+    }
+
+    public function updateSingleTrack(Request $request, $mountainId, $peakId, $trackId)
+    {
+        $track = Track::findOrFail($trackId);
+        $track->geojson = $request->geojson_modal;
+        $track->coordinates = $request->coordinates_modal;
+        $track->start_latitude = $request->start_latitude_modal;
+        $track->start_longitude = $request->start_longitude_modal;
+        $track->title = $request->title;
+        $track->time = $request->time;
+        $track->description = $request->description != '' ? $request->description : '-';
+
+        if ($track->save()) {
+            return redirect()->route('mountains.editTrack', [$mountainId, $peakId, $track->id])->with('status', 'Successfully update current track!');
+        }
     }
 
     public function updateTrack(Request $request, $mountainId, $peakId, $trackId)
