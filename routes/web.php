@@ -53,6 +53,7 @@ Route::post('mountains/{mountainId}/peak/{peakId}/storeTrack/', [MountainControl
 
 Route::get('mountains/{mountainId}/peak/{peakId}/editTrack/{trackId}', [MountainController::class, 'editTrack'])->name('mountains.editTrack');
 Route::patch('mountains/{mountainId}/peak/{peakId}/updateTrack/{trackId}', [MountainController::class, 'updateTrack'])->name('mountains.updateTrack');
+Route::patch('mountains/{mountainId}/peak/{peakId}/updateSingleTrack/{trackId}', [MountainController::class, 'updateSingleTrack'])->name('mountains.updateSingleTrack');
 Route::delete('mountains/{mountainId}/peak/{peakId}/destroyTrack/{trackId}', [MountainController::class, 'destroyTrack'])->name('mountains.destroyTrack');
 
 Route::post('mountains/trackDatatables/', [MountainController::class, 'trackDatatables'])->name('mountains.trackDatatables');

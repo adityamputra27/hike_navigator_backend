@@ -186,7 +186,7 @@
             const draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
-                    trash: false,
+                    trash: true,
                     polygon: false,
                     line_string: true,
                     point: true,
@@ -208,7 +208,6 @@
                             'line-width': 2
                         }
                     },
-                    // Ganti warna garis seleksi menjadi putih
                     {
                         'id': 'gl-draw-line-static',
                         'type': 'line',
